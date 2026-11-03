@@ -1,0 +1,98 @@
+{
+  "//": "tour.route.json の形（Studio の sections 方言）。",
+  "version": 1,
+  "sections": {
+    "startX": {
+      "kind": "field",
+      "type": "float",
+      "label": "歩き出す x（m）",
+      "order": 1,
+      "default": 1.5,
+      "group": "始まり"
+    },
+    "startZ": {
+      "kind": "field",
+      "type": "float",
+      "label": "歩き出す z（m）",
+      "order": 2,
+      "default": 10.2,
+      "group": "始まり"
+    },
+    "startYaw": {
+      "kind": "field",
+      "type": "float",
+      "label": "歩き出す向き（度）",
+      "order": 3,
+      "default": 215.0,
+      "group": "始まり"
+    },
+    "turnRate": {
+      "kind": "field",
+      "type": "float",
+      "label": "向きを変える速さ（度/秒）",
+      "order": 4,
+      "default": 90.0,
+      "group": "歩き方"
+    },
+    "arriveRadius": {
+      "kind": "field",
+      "type": "float",
+      "label": "着いたとみなす距離（m）",
+      "order": 5,
+      "default": 0.3,
+      "group": "歩き方"
+    },
+    "points": {
+      "kind": "list",
+      "label": "通る点",
+      "order": 6,
+      "fields": {
+        "name": {
+          "type": "string",
+          "order": 1,
+          "label": "名前"
+        },
+        "x": {
+          "type": "float",
+          "order": 2,
+          "label": "x（m）"
+        },
+        "z": {
+          "type": "float",
+          "order": 3,
+          "label": "z（m）"
+        },
+        "wait": {
+          "type": "float",
+          "order": 4,
+          "label": "着いてから待つ秒"
+        },
+        "lookYaw": {
+          "type": "float",
+          "order": 5,
+          "label": "待つ間に向く向き（度。無ければ替えない）"
+        },
+        "lookPitch": {
+          "type": "float",
+          "order": 6,
+          "label": "待つ間に見下ろす角（度・負で見上げる）"
+        },
+        "run": {
+          "type": "bool",
+          "order": 7,
+          "label": "走る"
+        },
+        "press": {
+          "type": "bool",
+          "order": 8,
+          "label": "向き終えたら E を押す（玄関の扉）"
+        },
+        "light": {
+          "type": "bool",
+          "order": 9,
+          "label": "着いた所で手の灯りを点ける・消す（無ければ替えない）"
+        }
+      }
+    }
+  }
+}

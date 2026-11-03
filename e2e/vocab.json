@@ -1,0 +1,28 @@
+{
+  "verbs": ["start", "tap", "hold", "release", "wait", "until", "drive", "expect", "mark", "run", "reload", "request", "close", "rewind"],
+  "settings": ["fps", "ready"],
+  "options": {},
+  "roles": ["forward", "back", "left", "right", "turnleft", "turnright", "run", "light", "door", "colliders", "confirm", "cancel"],
+  "probes": [
+    {"name": "x", "kind": "num", "doc": "足元の x（m）"},
+    {"name": "z", "kind": "num", "doc": "足元の z（m）"},
+    {"name": "feet", "kind": "num", "doc": "足元の高さ（m。1 階の外廊下 0.3・2 階 3.1）"},
+    {"name": "toured", "kind": "flag", "doc": "自動の操縦が道筋を歩き終えたか"},
+    {"name": "point", "kind": "text", "doc": "自動の操縦が向かっている道筋の点の名前（歩き終えたら空）"},
+    {"name": "opendoors", "kind": "num", "doc": "閉じていない玄関の扉の数"},
+    {"name": "stairs", "kind": "text", "doc": "階段ですれ違う人（Waiting・Walking・Gone）"},
+    {"name": "looking", "kind": "flag", "doc": "マウスをキャプチャして視点を回しているか"},
+    {"name": "loading", "kind": "flag", "doc": "読み込みの幕が出ているか"},
+    {"name": "quit", "kind": "text", "doc": "終了の確認（Playing・Asking・Confirmed）"}
+  ],
+  "drives": [],
+  "starts": [
+    {"name": "play", "doc": "道路の端に立つ所（起動の既定）", "args": {}},
+    {"name": "at", "doc": "足元 x・z（m。y はその階のおおよその高さ）に、向き yaw・見下ろす角 pitch（度。0 が +Z・pitch は負で見上げる）で立つ所。fov（度）が 0 より大きければ縦の画角を替える。足元は床に合わせる。t（秒）だけ遊びの時計を進めておく（住人の動きの秒）。stairs（秒）が 0 以上なら、階段の人がその動きの秒の所を歩いている。diag=1 なら F3 の診断を出しておく", "args": {"diag": "0", "fov": "0", "pitch": "0", "stairs": "-1", "t": "0", "x": "0", "y": "0", "yaw": "0", "z": "0"}},
+    {"name": "tour", "doc": "紹介の動画の道筋（tour.route.json）を自動で歩き始める所。from に点の名前を書くと、その点（おおよその高さ y m）に立って次の点から歩く", "args": {"from": "", "y": "0"}}
+  ],
+  "keys": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", "Digit0", "Digit1", "Digit2", "Digit3", "Digit4", "Digit5", "Digit6", "Digit7", "Digit8", "Digit9", "Up", "Down", "Left", "Right", "Enter", "Space", "Escape", "Tab", "Backspace", "Insert", "Delete", "PageUp", "PageDown", "Home", "End", "CapsLock", "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", "Apostrophe", "Comma", "Minus", "Period", "Slash", "Semicolon", "Equal", "LeftBracket", "Backslash", "RightBracket", "GraveAccent", "LeftShift", "LeftCtrl", "LeftAlt", "LeftSuper", "RightShift", "RightCtrl", "RightAlt", "RightSuper", "Menu", "Numpad0", "Numpad1", "Numpad2", "Numpad3", "Numpad4", "Numpad5", "Numpad6", "Numpad7", "Numpad8", "Numpad9", "NumpadDecimal", "NumpadDivide", "NumpadMultiply", "NumpadSubtract", "NumpadAdd", "NumpadEnter", "NumpadEqual"],
+  "ready": false,
+  "replies": false,
+  "fingerprint": true
+}

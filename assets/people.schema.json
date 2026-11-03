@@ -1,0 +1,129 @@
+{
+  "//": "people.kind.json の形（Studio の sections 方言）。既定は src/PeopleDoc.flix の defaults() が正。",
+  "version": 1,
+  "sections": {
+    "light": {
+      "kind": "record",
+      "label": "住人を照らす灯り",
+      "order": 1,
+      "fields": {
+        "gain": {
+          "type": "float",
+          "label": "Blender の 1 W あたりの強さ",
+          "default": 0.08
+        },
+        "maxIntensity": {
+          "type": "float",
+          "label": "強さの上限",
+          "default": 0.6
+        },
+        "rangeScale": {
+          "type": "float",
+          "label": "届く距離の倍率",
+          "default": 1.0
+        }
+      }
+    },
+    "stairs": {
+      "kind": "record",
+      "label": "階段ですれ違う人（歩き出す範囲と秒）",
+      "order": 2,
+      "fields": {
+        "minX": {
+          "type": "float",
+          "label": "範囲 x の下（m）",
+          "default": -18.4
+        },
+        "maxX": {
+          "type": "float",
+          "label": "範囲 x の上（m）",
+          "default": -17.0
+        },
+        "minZ": {
+          "type": "float",
+          "label": "範囲 z の下（m）",
+          "default": -2.0
+        },
+        "maxZ": {
+          "type": "float",
+          "label": "範囲 z の上（m）",
+          "default": 1.1
+        },
+        "minY": {
+          "type": "float",
+          "label": "足元の高さの下（m）",
+          "default": 0.2
+        },
+        "maxY": {
+          "type": "float",
+          "label": "足元の高さの上（m）",
+          "default": 1.8
+        },
+        "startS": {
+          "type": "float",
+          "label": "歩き出す時の動きの秒",
+          "default": 10.133
+        }
+      }
+    },
+    "sound": {
+      "kind": "record",
+      "label": "住人の音",
+      "order": 3,
+      "fields": {
+        "range": {
+          "type": "float",
+          "label": "聞こえる距離（m）",
+          "default": 14.0
+        },
+        "hitVolume": {
+          "type": "float",
+          "label": "頭を打つ音の大きさ",
+          "default": 0.85
+        },
+        "stompVolume": {
+          "type": "float",
+          "label": "地団駄の大きさ",
+          "default": 0.75
+        },
+        "stepVolume": {
+          "type": "float",
+          "label": "すれ違う人の足音の大きさ",
+          "default": 0.7
+        },
+        "wallVolume": {
+          "type": "float",
+          "label": "壁の向こうの大きさの倍率",
+          "default": 0.55
+        },
+        "wallHF": {
+          "type": "float",
+          "label": "壁の向こうの高い音の残り具合（0..1）",
+          "default": 0.12
+        },
+        "doorHF": {
+          "type": "float",
+          "label": "開いた扉越しの高い音の残り具合（0..1）",
+          "default": 0.45
+        }
+      }
+    },
+    "textureMax": {
+      "kind": "record",
+      "label": "絵の大きさの上限（起動の時だけ）",
+      "order": 4,
+      "fields": {
+        "baseColor": {
+          "type": "int",
+          "label": "色の絵（px）",
+          "default": 2048
+        },
+        "normal": {
+          "type": "int",
+          "label": "法線マップ（px）",
+          "default": 1024
+        }
+      }
+    }
+  }
+}

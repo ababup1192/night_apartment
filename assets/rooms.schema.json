@@ -1,0 +1,107 @@
+{
+  "//": "rooms.kind.json の形（Studio の sections 方言）。既定は src/RoomsDoc.flix の defaults() が正。",
+  "version": 1,
+  "sections": {
+    "door": {
+      "kind": "record",
+      "label": "玄関の扉（E で開け閉め）",
+      "order": 1,
+      "fields": {
+        "speedDeg": {
+          "type": "float",
+          "label": "回る速さ（度/秒）",
+          "default": 95.0
+        },
+        "openDeg": {
+          "type": "float",
+          "label": "開け切る角（度・負で外廊下へ）",
+          "default": -88.0
+        },
+        "reach": {
+          "type": "float",
+          "label": "E が届く距離（m）",
+          "default": 1.7
+        },
+        "facingDeg": {
+          "type": "float",
+          "label": "扉を向いているとみなす角（度）",
+          "default": 55.0
+        }
+      }
+    },
+    "draw": {
+      "kind": "record",
+      "label": "部屋を描くか",
+      "order": 2,
+      "fields": {
+        "insideMargin": {
+          "type": "float",
+          "label": "部屋の囲みの外へ足す幅（m）",
+          "default": 0.4
+        },
+        "seeRange": {
+          "type": "float",
+          "label": "開いた扉越しに描く距離（m）",
+          "default": 14.0
+        },
+        "seeConeDeg": {
+          "type": "float",
+          "label": "扉を見ているとみなす角（度）",
+          "default": 80.0
+        },
+        "nearRange": {
+          "type": "float",
+          "label": "向きによらず描く距離（m）",
+          "default": 1.6
+        },
+        "ajarDeg": {
+          "type": "float",
+          "label": "開いているとみなす角（度）",
+          "default": 1.0
+        }
+      }
+    },
+    "light": {
+      "kind": "record",
+      "label": "部屋の灯り",
+      "order": 3,
+      "fields": {
+        "gain": {
+          "type": "float",
+          "label": "1 W あたりの強さ",
+          "default": 0.02
+        },
+        "minIntensity": {
+          "type": "float",
+          "label": "強さの下限",
+          "default": 0.04
+        },
+        "maxIntensity": {
+          "type": "float",
+          "label": "強さの上限",
+          "default": 0.35
+        },
+        "rangeScale": {
+          "type": "float",
+          "label": "届く距離の倍率",
+          "default": 1.0
+        },
+        "tvIntensity": {
+          "type": "float",
+          "label": "テレビの明るい時の強さ",
+          "default": 0.6
+        },
+        "tvMin": {
+          "type": "float",
+          "label": "テレビの一番暗い所（0..1）",
+          "default": 0.2
+        },
+        "tvRate": {
+          "type": "float",
+          "label": "テレビが 1 秒に替わる回数",
+          "default": 7.0
+        }
+      }
+    }
+  }
+}

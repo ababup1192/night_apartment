@@ -1,0 +1,435 @@
+{
+  "version": 1,
+  "title": "紹介の動画の道筋",
+  "note": "道路 → 自販機の前で立ち止まる → 門から敷地へ → 外階段を上る → 2 階の外廊下を奥へ → ちらつく蛍光灯の下 → 205 の扉を開けて入り窓の前で外を見る → 204・203・202 は部屋の住人（頭を打つ人・揺れる人・地団駄の人）を見て出て扉を閉める。外階段の下（stair_foot）では、降りてくる階段の人を待ってから壁側を上る。points=通る点（x/z=足元 m・wait=着いてから待つ秒・lookYaw=待つ間に向く向き（度・0 が +Z・90 が +X）・lookPitch=待つ間に見下ろす角（度・負で見上げる）・run=走るか・press=向き終えたら E を押す（玄関の扉）・light=着いた所で手の灯りを点ける true / 消す false）。turnRate=向きを変える速さ（度/秒）・arriveRadius=着いたとみなす距離（m）。",
+  "startX": 1.5,
+  "startZ": 10.2,
+  "startYaw": 215.0,
+  "turnRate": 90.0,
+  "arriveRadius": 0.3,
+  "points": [
+    {
+      "name": "road",
+      "x": 0.2,
+      "z": 9.3,
+      "wait": 0.3,
+      "lookPitch": 0,
+      "run": false
+    },
+    {
+      "name": "vending",
+      "x": -2.6,
+      "z": 7.15,
+      "wait": 3.0,
+      "lookPitch": -4.0,
+      "run": false,
+      "lookYaw": 180.0
+    },
+    {
+      "name": "wall_walk",
+      "x": -6.6,
+      "z": 7.2,
+      "wait": 0.0,
+      "lookPitch": 0,
+      "run": false
+    },
+    {
+      "name": "gate",
+      "x": -7.0,
+      "z": 5.0,
+      "wait": 0.0,
+      "lookPitch": 0,
+      "run": false
+    },
+    {
+      "name": "yard",
+      "x": -10.0,
+      "z": 3.7,
+      "wait": 0.0,
+      "lookPitch": 0,
+      "run": false
+    },
+    {
+      "name": "yard_east",
+      "x": -16.0,
+      "z": 3.6,
+      "wait": 0.0,
+      "lookPitch": 0,
+      "run": false
+    },
+    {
+      "name": "stair_foot",
+      "x": -17.5,
+      "z": 0.75,
+      "wait": 8.5,
+      "lookPitch": -24.0,
+      "run": false,
+      "lookYaw": 180.0
+    },
+    {
+      "name": "flightA_top",
+      "x": -17.5,
+      "z": -1.95,
+      "wait": 0.0,
+      "lookPitch": 0,
+      "run": false
+    },
+    {
+      "name": "mid_landing",
+      "x": -18.85,
+      "z": -2.0,
+      "wait": 0.0,
+      "lookPitch": 0,
+      "run": false
+    },
+    {
+      "name": "flightB_top",
+      "x": -18.85,
+      "z": 0.35,
+      "wait": 0.0,
+      "lookPitch": 0,
+      "run": false
+    },
+    {
+      "name": "landing_2",
+      "x": -17.9,
+      "z": 0.72,
+      "wait": 0.0,
+      "lookPitch": 0,
+      "run": false
+    },
+    {
+      "name": "corridor_2",
+      "x": -15.0,
+      "z": 0.8,
+      "wait": 0.0,
+      "lookPitch": 0,
+      "run": false
+    },
+    {
+      "name": "under_lamp",
+      "x": -11.9,
+      "z": 0.66,
+      "wait": 3.5,
+      "lookPitch": -38.0,
+      "run": false,
+      "lookYaw": 90.0
+    },
+    {
+      "name": "look_down",
+      "x": -11.85,
+      "z": 0.66,
+      "wait": 4.0,
+      "lookPitch": -2.0,
+      "run": false,
+      "lookYaw": 90.0
+    },
+    {
+      "name": "aside_205",
+      "x": -15.275,
+      "z": 0.62,
+      "wait": 1.3,
+      "lookPitch": 4.0,
+      "run": false,
+      "lookYaw": 126.0,
+      "press": true,
+      "light": false
+    },
+    {
+      "name": "door_205",
+      "x": -14.3,
+      "z": 0.6,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "genkan_205",
+      "x": -14.45,
+      "z": -0.75,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "dk_205",
+      "x": -15.15,
+      "z": -2.85,
+      "wait": 0.4,
+      "lookPitch": 6.0,
+      "run": false
+    },
+    {
+      "name": "window_205",
+      "x": -15.2,
+      "z": -6.1,
+      "wait": 3.2,
+      "lookPitch": -2.0,
+      "run": false,
+      "lookYaw": 180.0
+    },
+    {
+      "name": "dk_back_205",
+      "x": -15.15,
+      "z": -2.85,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "genkan_back_205",
+      "x": -14.45,
+      "z": -0.75,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "out_205",
+      "x": -14.3,
+      "z": 0.5,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "close_205",
+      "x": -15.275,
+      "z": 0.62,
+      "wait": 1.2,
+      "lookPitch": 4.0,
+      "run": false,
+      "lookYaw": 126.0,
+      "press": true
+    },
+    {
+      "name": "aside_204",
+      "x": -11.875,
+      "z": 0.62,
+      "wait": 1.3,
+      "lookPitch": 4.0,
+      "run": false,
+      "lookYaw": 126.0,
+      "press": true,
+      "light": true
+    },
+    {
+      "name": "door_204",
+      "x": -10.9,
+      "z": 0.6,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "genkan_204",
+      "x": -11.05,
+      "z": -0.75,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "dk_204",
+      "x": -11.75,
+      "z": -2.85,
+      "wait": 0.4,
+      "lookPitch": 6.0,
+      "run": false
+    },
+    {
+      "name": "watch_204",
+      "x": -11.3,
+      "z": -3.5,
+      "wait": 10.0,
+      "lookPitch": 16.0,
+      "run": false,
+      "lookYaw": 316.5
+    },
+    {
+      "name": "genkan_back_204",
+      "x": -11.05,
+      "z": -0.75,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "out_204",
+      "x": -10.9,
+      "z": 0.5,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "close_204",
+      "x": -11.875,
+      "z": 0.62,
+      "wait": 1.2,
+      "lookPitch": 4.0,
+      "run": false,
+      "lookYaw": 126.0,
+      "press": true,
+      "light": false
+    },
+    {
+      "name": "aside_203",
+      "x": -8.475,
+      "z": 0.62,
+      "wait": 1.3,
+      "lookPitch": 4.0,
+      "run": false,
+      "lookYaw": 126.0,
+      "press": true,
+      "light": false
+    },
+    {
+      "name": "door_203",
+      "x": -7.5,
+      "z": 0.6,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "genkan_203",
+      "x": -7.65,
+      "z": -0.75,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "dk_203",
+      "x": -8.35,
+      "z": -2.85,
+      "wait": 0.4,
+      "lookPitch": 6.0,
+      "run": false
+    },
+    {
+      "name": "watch_203",
+      "x": -8.55,
+      "z": -4.3,
+      "wait": 9.0,
+      "lookPitch": 8.0,
+      "run": false,
+      "lookYaw": 194.0
+    },
+    {
+      "name": "dk_back_203",
+      "x": -8.35,
+      "z": -2.85,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "genkan_back_203",
+      "x": -7.65,
+      "z": -0.75,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "out_203",
+      "x": -7.5,
+      "z": 0.5,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "close_203",
+      "x": -8.475,
+      "z": 0.62,
+      "wait": 1.2,
+      "lookPitch": 4.0,
+      "run": false,
+      "lookYaw": 126.0,
+      "press": true
+    },
+    {
+      "name": "aside_202",
+      "x": -5.075,
+      "z": 0.62,
+      "wait": 1.3,
+      "lookPitch": 4.0,
+      "run": false,
+      "lookYaw": 126.0,
+      "press": true,
+      "light": true
+    },
+    {
+      "name": "door_202",
+      "x": -4.1,
+      "z": 0.6,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "genkan_202",
+      "x": -4.25,
+      "z": -0.75,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "dk_202",
+      "x": -4.95,
+      "z": -2.85,
+      "wait": 0.4,
+      "lookPitch": 6.0,
+      "run": false
+    },
+    {
+      "name": "watch_202",
+      "x": -5.3,
+      "z": -3.85,
+      "wait": 9.0,
+      "lookPitch": 18.0,
+      "run": false,
+      "lookYaw": 166.0
+    },
+    {
+      "name": "genkan_back_202",
+      "x": -4.25,
+      "z": -0.75,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "out_202",
+      "x": -4.1,
+      "z": 0.5,
+      "wait": 0.0,
+      "lookPitch": 0.0,
+      "run": false
+    },
+    {
+      "name": "close_202",
+      "x": -5.075,
+      "z": 0.62,
+      "wait": 1.2,
+      "lookPitch": 4.0,
+      "run": false,
+      "lookYaw": 126.0,
+      "press": true,
+      "light": false
+    },
+    {
+      "name": "corridor_end",
+      "x": -4.4,
+      "z": 0.75,
+      "wait": 1.5,
+      "lookPitch": 0.0,
+      "run": false,
+      "lookYaw": 270.0
+    }
+  ]
+}

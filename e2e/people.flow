@@ -1,0 +1,15 @@
+# 住人の動画（make video FLOW=e2e/people.flow OUT=people → debug/video/people.mp4）の手順。道筋は assets/tour.route.json（自動の操縦が歩く）。
+# 門 → 敷地 → 外階段の下で降りてくる人を待ち、壁側を上ってすれ違う → 2 階の踊り場（ここで切る。205 と蛍光灯の下は撮らない）
+# → 204（手の灯りで頭を打つ人）→ 203（揺れる人）→ 202（地団駄の人）→ 外廊下の端。
+fps 60
+
+start tour from=gate y=0
+wait 0.3
+mark in_stairs
+until point=corridor_2 max 120
+mark out_stairs
+until point=aside_204 max 180
+mark in_rooms
+until toured max 400
+wait 1.0
+mark out_rooms

@@ -1,0 +1,33 @@
+// SampleDoc — sample.kind.json（画面に出す文言と、読み込みの幕）の宣言ドキュメント層。
+// fail-open — 読めない・壊れているときは defaults() へ落とし、ゲームは必ず起動する。
+mod SampleDoc {
+    use fge::{DocJson, JsonCodec}
+    use Util.Json.Json
+
+    pub type alias Rec = {
+        version = Int32,
+        // Esc・閉じるボタンで出る終了の確認の文言。
+        quitPrompt = String,
+        // 読み込みの幕の文言（組み込みの字なので英数字）。
+        loadingLabel = String
+    }
+    pub enum Doc(Rec)
+    pub def rec(d: Doc): Rec = match d { case Doc.Doc(r) => r }
+
+    pub def path(): String = "assets/sample.kind.json"
+
+    /// コード側の既定値（assets/sample.kind.json と同じ値から出発する）。
+    pub def defaults(): Doc =
+        Doc.Doc({ version = 1, quitPrompt = "Quit?  Enter: yes  /  Esc: no", loadingLabel = "Loading" })
+
+    def fromJson(text: String): Option[Doc] = DocJson.decodeObject(fromRoot, text)
+
+    def fromRoot(root: Map[String, Json]): Doc =
+        let d = rec(defaults());
+        Doc.Doc({ version = JsonCodec.intOr("version", d#version, root),
+                  quitPrompt = JsonCodec.stringOr("quitPrompt", d#quitPrompt, root),
+                  loadingLabel = JsonCodec.stringOr("loadingLabel", d#loadingLabel, root) })
+
+    /// path の Doc を読む。読めない・壊れているときは defaults（fail-open）。
+    pub def load(p: String): Doc \ Fs.FileRead = DocJson.loadOr(fromJson, defaults(), p)
+}

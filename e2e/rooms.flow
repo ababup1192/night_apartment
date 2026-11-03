@@ -1,0 +1,10 @@
+# 2 階の 4 部屋を回る動画（make video FLOW=e2e/rooms.flow OUT=rooms → debug/video/rooms.mp4）の手順。道筋は assets/tour.route.json の look_down の次から。
+# 外廊下 → 205・204・203・202 の扉を E で開けて入り、窓の前で外を見て、出て扉を閉める。暗い 204・202 では手の灯りを点ける。
+fps 60
+
+start tour from=look_down y=3.1
+wait 0.5
+mark in_rooms
+until toured max 200
+wait 1.0
+mark out_rooms

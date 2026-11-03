@@ -1,0 +1,190 @@
+{
+  "//": "night.look.json の形（Studio の sections 方言）。既定は src/LookDoc.flix の defaults() が正。",
+  "version": 1,
+  "sections": {
+    "lightmapIntensity": {
+      "kind": "field",
+      "type": "float",
+      "label": "ベイクした光の倍率",
+      "order": 1,
+      "default": 2.6,
+      "group": "焼き込みと発光"
+    },
+    "emissiveGain": {
+      "kind": "field",
+      "type": "float",
+      "label": "発光の倍率",
+      "order": 2,
+      "default": 5.0,
+      "group": "焼き込みと発光"
+    },
+    "ambient": {
+      "kind": "field",
+      "type": "color",
+      "label": "ベイクの無い物の環境光",
+      "order": 3,
+      "default": "#0c0e16",
+      "group": "焼き込みと発光"
+    },
+    "skyColor": {
+      "kind": "field",
+      "type": "color",
+      "label": "天頂の色",
+      "order": 4,
+      "default": "#070a16",
+      "group": "空と霧"
+    },
+    "horizonColor": {
+      "kind": "field",
+      "type": "color",
+      "label": "地平の色",
+      "order": 5,
+      "default": "#2a2226",
+      "group": "空と霧"
+    },
+    "horizonSpan": {
+      "kind": "field",
+      "type": "float",
+      "label": "色が移る幅（画面の割合）",
+      "order": 6,
+      "default": 0.45,
+      "group": "空と霧"
+    },
+    "fogColor": {
+      "kind": "field",
+      "type": "color",
+      "label": "霧の色",
+      "order": 7,
+      "default": "#14151d",
+      "group": "空と霧"
+    },
+    "fogNear": {
+      "kind": "field",
+      "type": "float",
+      "label": "霧のかかり始め（m）",
+      "order": 8,
+      "default": 6.0,
+      "group": "空と霧"
+    },
+    "fogFar": {
+      "kind": "field",
+      "type": "float",
+      "label": "霧がかかり切る距離（m）",
+      "order": 9,
+      "default": 60.0,
+      "group": "空と霧"
+    },
+    "exposure": {
+      "kind": "field",
+      "type": "float",
+      "label": "露出（stop）",
+      "order": 10,
+      "default": -0.15,
+      "group": "トーンマップ"
+    },
+    "whitePoint": {
+      "kind": "field",
+      "type": "float",
+      "label": "白の点",
+      "order": 11,
+      "default": 4.0,
+      "group": "トーンマップ"
+    },
+    "bloomThreshold": {
+      "kind": "field",
+      "type": "float",
+      "label": "しきい",
+      "order": 12,
+      "default": 0.9,
+      "group": "ブルーム"
+    },
+    "bloomKnee": {
+      "kind": "field",
+      "type": "float",
+      "label": "幅",
+      "order": 13,
+      "default": 0.7,
+      "group": "ブルーム"
+    },
+    "bloomStrength": {
+      "kind": "field",
+      "type": "float",
+      "label": "強さ",
+      "order": 14,
+      "default": 0.8,
+      "group": "ブルーム"
+    },
+    "bloomRadius": {
+      "kind": "field",
+      "type": "float",
+      "label": "ぼかしの半径",
+      "order": 15,
+      "default": 0.045,
+      "group": "ブルーム"
+    },
+    "bloomTaps": {
+      "kind": "field",
+      "type": "int",
+      "label": "標本の数",
+      "order": 16,
+      "default": 12,
+      "group": "ブルーム"
+    },
+    "bloomScale": {
+      "kind": "field",
+      "type": "float",
+      "label": "Pass の倍率",
+      "order": 17,
+      "default": 0.5,
+      "group": "ブルーム"
+    },
+    "vignette": {
+      "kind": "field",
+      "type": "float",
+      "label": "ビネット",
+      "order": 18,
+      "default": 0.42,
+      "group": "画面の仕上げ"
+    },
+    "grain": {
+      "kind": "field",
+      "type": "float",
+      "label": "フィルムの粒",
+      "order": 19,
+      "default": 0.02,
+      "group": "画面の仕上げ"
+    },
+    "gradeShadow": {
+      "kind": "field",
+      "type": "color",
+      "label": "暗部を寄せる色",
+      "order": 20,
+      "default": "#0a1226",
+      "group": "画面の仕上げ"
+    },
+    "gradeShadowMix": {
+      "kind": "field",
+      "type": "float",
+      "label": "暗部を寄せる割合",
+      "order": 21,
+      "default": 0.4,
+      "group": "画面の仕上げ"
+    },
+    "gradeLift": {
+      "kind": "field",
+      "type": "float",
+      "label": "底の持ち上げ",
+      "order": 22,
+      "default": 0.008,
+      "group": "画面の仕上げ"
+    },
+    "gradeSaturation": {
+      "kind": "field",
+      "type": "float",
+      "label": "彩度",
+      "order": 23,
+      "default": -0.05,
+      "group": "画面の仕上げ"
+    }
+  }
+}

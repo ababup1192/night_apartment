@@ -1,0 +1,235 @@
+{
+  "version": 1,
+  "title": "動く光と蛍光灯",
+  "note": "flashlight=手の灯り（F で点け消し。innerConeDeg=縁で暗くなり始める角・小さいほど輪の縁がやわらかい）。flash=点きかけの管が瞬いた時の光と、Dip の管が消えた時に画面を沈める量。flies=点いた管のまわりの羽虫。lamps=外廊下の蛍光灯（name=号室の上・x/y/z=管の真ん中 m・state=on/dim/dying/dead・flicker=steady/dip/sputter・rate=1 秒あたりの瞬きの起きやすさ・seed=種）。",
+  "flashlight": {
+    "color": "#ffe9c8",
+    "intensity": 0.8,
+    "range": 14.0,
+    "coneDeg": 55.0,
+    "innerConeDeg": 18.0,
+    "forward": 0.25,
+    "down": 0.3,
+    "right": 0.18,
+    "shadow": false,
+    "startOn": true
+  },
+  "flash": {
+    "color": "#d8f0e0",
+    "intensity": 1.6,
+    "range": 5.0,
+    "tubeGlow": 2.4,
+    "screenDip": 0.25,
+    "dipRange": 6.0
+  },
+  "flies": {
+    "perLamp": 14,
+    "spread": 0.7,
+    "size": 0.012,
+    "speed": 1.0,
+    "color": "#e8f0d8",
+    "drawRange": 14.0
+  },
+  "lamps": [
+    {
+      "name": "101",
+      "x": -1.55,
+      "y": 2.836,
+      "z": 0.55,
+      "state": "on",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    },
+    {
+      "name": "102",
+      "x": -4.95,
+      "y": 2.836,
+      "z": 0.55,
+      "state": "on",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    },
+    {
+      "name": "103",
+      "x": -8.35,
+      "y": 2.836,
+      "z": 0.55,
+      "state": "dim",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    },
+    {
+      "name": "104",
+      "x": -11.75,
+      "y": 2.836,
+      "z": 0.55,
+      "state": "on",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    },
+    {
+      "name": "105",
+      "x": -15.15,
+      "y": 2.836,
+      "z": 0.55,
+      "state": "on",
+      "flicker": "dip",
+      "rate": 0.2,
+      "seed": 61
+    },
+    {
+      "name": "201",
+      "x": -1.55,
+      "y": 5.636,
+      "z": 0.55,
+      "state": "on",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    },
+    {
+      "name": "202",
+      "x": -4.95,
+      "y": 5.636,
+      "z": 0.55,
+      "state": "dead",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    },
+    {
+      "name": "203",
+      "x": -8.35,
+      "y": 5.636,
+      "z": 0.55,
+      "state": "on",
+      "flicker": "dip",
+      "rate": 0.35,
+      "seed": 41
+    },
+    {
+      "name": "204",
+      "x": -11.75,
+      "y": 5.636,
+      "z": 0.55,
+      "state": "dying",
+      "flicker": "sputter",
+      "rate": 0.7,
+      "seed": 23
+    },
+    {
+      "name": "205",
+      "x": -15.15,
+      "y": 5.636,
+      "z": 0.55,
+      "state": "on",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    },
+    {
+      "name": "301",
+      "x": -1.55,
+      "y": 8.436,
+      "z": 0.55,
+      "state": "on",
+      "flicker": "dip",
+      "rate": 0.15,
+      "seed": 57
+    },
+    {
+      "name": "302",
+      "x": -4.95,
+      "y": 8.436,
+      "z": 0.55,
+      "state": "dead",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    },
+    {
+      "name": "303",
+      "x": -8.35,
+      "y": 8.436,
+      "z": 0.55,
+      "state": "on",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    },
+    {
+      "name": "304",
+      "x": -11.75,
+      "y": 8.436,
+      "z": 0.55,
+      "state": "dim",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    },
+    {
+      "name": "305",
+      "x": -15.15,
+      "y": 8.436,
+      "z": 0.55,
+      "state": "on",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    },
+    {
+      "name": "401",
+      "x": -1.55,
+      "y": 11.236,
+      "z": 0.55,
+      "state": "on",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    },
+    {
+      "name": "402",
+      "x": -4.95,
+      "y": 11.236,
+      "z": 0.55,
+      "state": "on",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    },
+    {
+      "name": "403",
+      "x": -8.35,
+      "y": 11.236,
+      "z": 0.55,
+      "state": "on",
+      "flicker": "dip",
+      "rate": 0.12,
+      "seed": 73
+    },
+    {
+      "name": "404",
+      "x": -11.75,
+      "y": 11.236,
+      "z": 0.55,
+      "state": "on",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    },
+    {
+      "name": "405",
+      "x": -15.15,
+      "y": 11.236,
+      "z": 0.55,
+      "state": "dim",
+      "flicker": "steady",
+      "rate": 0.3,
+      "seed": 1
+    }
+  ]
+}

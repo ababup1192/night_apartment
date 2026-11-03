@@ -1,0 +1,197 @@
+{
+  "//": "night.lights.json の形（Studio の sections 方言）。既定は src/LightsDoc.flix の defaults() が正。",
+  "version": 1,
+  "sections": {
+    "flashlight": {
+      "kind": "record",
+      "label": "手の灯り（F で点け消し）",
+      "order": 1,
+      "fields": {
+        "color": {
+          "type": "color",
+          "label": "色",
+          "default": "#ffe9c8"
+        },
+        "intensity": {
+          "type": "float",
+          "label": "強さ",
+          "default": 1.2
+        },
+        "range": {
+          "type": "float",
+          "label": "届く距離（m）",
+          "default": 14.0
+        },
+        "coneDeg": {
+          "type": "float",
+          "label": "円錐の角（度）",
+          "default": 42.0
+        },
+        "innerConeDeg": {
+          "type": "float",
+          "label": "縁で暗くなり始める角（度・小さいほど縁がやわらかい）",
+          "default": 18.0
+        },
+        "forward": {
+          "type": "float",
+          "label": "目からのずれ 前（m）",
+          "default": 0.25
+        },
+        "down": {
+          "type": "float",
+          "label": "目からのずれ 下（m）",
+          "default": 0.3
+        },
+        "right": {
+          "type": "float",
+          "label": "目からのずれ 右（m）",
+          "default": 0.18
+        },
+        "shadow": {
+          "type": "bool",
+          "label": "影を落とす",
+          "default": false
+        },
+        "startOn": {
+          "type": "bool",
+          "label": "始めから点いている",
+          "default": true
+        }
+      }
+    },
+    "flash": {
+      "kind": "record",
+      "label": "点滅の光",
+      "order": 2,
+      "fields": {
+        "color": {
+          "type": "color",
+          "label": "瞬いた光の色",
+          "default": "#d8f0e0"
+        },
+        "intensity": {
+          "type": "float",
+          "label": "瞬いた光の強さ",
+          "default": 1.6
+        },
+        "range": {
+          "type": "float",
+          "label": "瞬いた光の届く距離（m）",
+          "default": 5.0
+        },
+        "tubeGlow": {
+          "type": "float",
+          "label": "瞬いた管の発光",
+          "default": 2.4
+        },
+        "screenDip": {
+          "type": "float",
+          "label": "消えた時に画面を沈める量",
+          "default": 0.25
+        },
+        "dipRange": {
+          "type": "float",
+          "label": "沈める届く距離（m）",
+          "default": 6.0
+        }
+      }
+    },
+    "flies": {
+      "kind": "record",
+      "label": "羽虫",
+      "order": 3,
+      "fields": {
+        "perLamp": {
+          "type": "int",
+          "label": "管 1 本あたりの数",
+          "default": 14
+        },
+        "spread": {
+          "type": "float",
+          "label": "管からの広がり（m）",
+          "default": 0.7
+        },
+        "size": {
+          "type": "float",
+          "label": "粒の大きさ（m）",
+          "default": 0.012
+        },
+        "speed": {
+          "type": "float",
+          "label": "飛ぶ速さ",
+          "default": 1.0
+        },
+        "color": {
+          "type": "color",
+          "label": "色",
+          "default": "#e8f0d8"
+        },
+        "drawRange": {
+          "type": "float",
+          "label": "描く距離（m）",
+          "default": 14.0
+        }
+      }
+    },
+    "lamps": {
+      "kind": "list",
+      "label": "外廊下の蛍光灯",
+      "order": 4,
+      "fields": {
+        "name": {
+          "type": "string",
+          "order": 1,
+          "label": "名前（号室の上）"
+        },
+        "x": {
+          "type": "float",
+          "order": 2,
+          "label": "x（m）"
+        },
+        "y": {
+          "type": "float",
+          "order": 3,
+          "label": "y（m）"
+        },
+        "z": {
+          "type": "float",
+          "order": 4,
+          "label": "z（m）"
+        },
+        "state": {
+          "type": {
+            "enum": [
+              "on",
+              "dim",
+              "dying",
+              "dead"
+            ]
+          },
+          "order": 5,
+          "label": "状態"
+        },
+        "flicker": {
+          "type": {
+            "enum": [
+              "steady",
+              "dip",
+              "sputter"
+            ]
+          },
+          "order": 6,
+          "label": "点滅の形"
+        },
+        "rate": {
+          "type": "float",
+          "order": 7,
+          "label": "瞬きの起きやすさ（1 秒あたり）"
+        },
+        "seed": {
+          "type": "int",
+          "order": 8,
+          "label": "種"
+        }
+      }
+    }
+  }
+}

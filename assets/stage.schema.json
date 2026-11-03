@@ -1,0 +1,54 @@
+{
+  "//": "stage.kind.json の形（Studio の sections 方言）。起動の時だけ読む。",
+  "version": 1,
+  "sections": {
+    "dir": {
+      "kind": "field",
+      "type": "string",
+      "label": "書き出しのフォルダ",
+      "order": 1,
+      "default": "assets/apartment"
+    },
+    "baseColorMax": {
+      "kind": "field",
+      "type": "int",
+      "label": "材質の絵の上限（px）",
+      "order": 2,
+      "default": 8192,
+      "group": "絵の上限"
+    },
+    "normalMax": {
+      "kind": "field",
+      "type": "int",
+      "label": "法線マップの上限（px）",
+      "order": 3,
+      "default": 8192,
+      "group": "絵の上限"
+    },
+    "lightmapMax": {
+      "kind": "field",
+      "type": "int",
+      "label": "lightmap の上限（px）",
+      "order": 4,
+      "default": 8192,
+      "group": "絵の上限"
+    },
+    "emissiveMax": {
+      "kind": "field",
+      "type": "int",
+      "label": "発光の絵の上限（px）",
+      "order": 5,
+      "default": 8192,
+      "group": "絵の上限"
+    },
+    "skip": {
+      "kind": "field",
+      "type": {
+        "list": "string"
+      },
+      "label": "読まない部品",
+      "order": 6,
+      "default": []
+    }
+  }
+}

@@ -1,0 +1,28 @@
+# 静止画の目標（renders/CAM_*_final.png）と同じ構図を GPU で撮る手順（make stills）。構図ごとに 1 秒撮り、各区間の最後のコマを抜く。
+# 静止画には手の灯りが無いので、構図ごとに手の灯りを消してから撮る（tap light）。構図の値は src/render/SceneRender.flix の shotOf と同じ。
+fps 60
+
+start at x=4.5 y=0 z=12.5 yaw=228.5 pitch=-9 fov=58.7
+tap light
+wait 0.2
+mark in_wide
+wait 1.0
+mark out_wide
+start at x=-0.75 y=0 z=8.9 yaw=211.9 pitch=2 fov=35
+tap light
+wait 0.2
+mark in_vending
+wait 1.0
+mark out_vending
+start at x=-16.6 y=3.1 z=0.7 yaw=91.5 pitch=-6 fov=53.7
+tap light
+wait 0.2
+mark in_corridor
+wait 1.0
+mark out_corridor
+start at x=-17.8 y=0.3 z=0.7 yaw=199.2 pitch=-22 fov=53.7
+tap light
+wait 0.2
+mark in_stairs
+wait 1.0
+mark out_stairs

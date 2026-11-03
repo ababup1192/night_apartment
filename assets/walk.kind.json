@@ -1,0 +1,32 @@
+{
+  "version": 1,
+  "title": "歩く手触り",
+  "note": "長さは m・角は度・速さは 1 秒あたり。walkSpeed/runSpeed=歩く・走る速さ。turnSpeed=キーで向きを変える速さ。mouseSensitivity=マウスをキャプチャしている間（窓を押すと始まり Esc で放す）にマウスを 1 px（design）動かした時に向く角。invertY=マウスの上下を逆にする。eyeHeight=目の高さ。radius/height=体の半径と高さ（当たり判定）。stepHeight=そのまま上がれる段。stride/runStride=1 歩の長さ（足音の間隔）。start=歩き始める所。bounds=歩ける範囲。 groundY=当たり判定の箱の無い所の地面の高さ。",
+  "walkSpeed": 1.4,
+  "runSpeed": 3.2,
+  "turnSpeed": 110.0,
+  "mouseSensitivity": 0.18,
+  "invertY": false,
+  "pitchLimit": 75.0,
+  "eyeHeight": 1.6,
+  "radius": 0.22,
+  "height": 1.7,
+  "stepHeight": 0.35,
+  "gravity": 9.8,
+  "bobHeight": 0.025,
+  "stride": 0.72,
+  "runStride": 1.05,
+  "fovY": 58.0,
+  "start": {
+    "x": 1.5,
+    "z": 10.2,
+    "yaw": 200.0
+  },
+  "bounds": {
+    "minX": -26.0,
+    "maxX": 12.0,
+    "minZ": -8.0,
+    "maxZ": 13.5
+  },
+  "groundY": -0.02
+}

@@ -1,0 +1,345 @@
+{
+  "//": "night.sound.json の形（Studio の sections 方言）。入れ子は 2 段まで（範囲は行に平らに並べ、置き場所は spots に群れの名前で並べる）。",
+  "version": 1,
+  "sections": {
+    "surfaces": {
+      "kind": "list",
+      "label": "足音の面（上から順に当てる・どれにも入らなければ concrete）",
+      "order": 1,
+      "group": "面と場所",
+      "fields": {
+        "name": {
+          "type": "string",
+          "label": "名前",
+          "order": 1
+        },
+        "minX": {
+          "type": "float",
+          "label": "minX",
+          "order": 2
+        },
+        "maxX": {
+          "type": "float",
+          "label": "maxX",
+          "order": 3
+        },
+        "minY": {
+          "type": "float",
+          "label": "minY（足元の高さ）",
+          "order": 4
+        },
+        "maxY": {
+          "type": "float",
+          "label": "maxY",
+          "order": 5
+        },
+        "minZ": {
+          "type": "float",
+          "label": "minZ",
+          "order": 6
+        },
+        "maxZ": {
+          "type": "float",
+          "label": "maxZ",
+          "order": 7
+        }
+      }
+    },
+    "spaces": {
+      "kind": "list",
+      "label": "響きと環境音の場所（stairs・corridor。部屋の中は部屋の囲みが先・どれにも入らなければ outdoor）",
+      "order": 2,
+      "group": "面と場所",
+      "fields": {
+        "name": {
+          "type": "string",
+          "label": "名前",
+          "order": 1
+        },
+        "minX": {
+          "type": "float",
+          "label": "minX",
+          "order": 2
+        },
+        "maxX": {
+          "type": "float",
+          "label": "maxX",
+          "order": 3
+        },
+        "minY": {
+          "type": "float",
+          "label": "minY（足元の高さ）",
+          "order": 4
+        },
+        "maxY": {
+          "type": "float",
+          "label": "maxY",
+          "order": 5
+        },
+        "minZ": {
+          "type": "float",
+          "label": "minZ",
+          "order": 6
+        },
+        "maxZ": {
+          "type": "float",
+          "label": "maxZ",
+          "order": 7
+        }
+      }
+    },
+    "beds": {
+      "kind": "record",
+      "label": "場所の環境音",
+      "order": 3,
+      "group": "環境音",
+      "fields": {
+        "outdoor": {
+          "type": "float",
+          "label": "屋外の夜の大きさ",
+          "order": 1,
+          "default": 0.16
+        },
+        "corridor": {
+          "type": "float",
+          "label": "外廊下の蛍光灯のうなりの大きさ",
+          "order": 2,
+          "default": 0.1
+        },
+        "stairs": {
+          "type": "float",
+          "label": "外階段の風の大きさ",
+          "order": 3,
+          "default": 0.12
+        },
+        "outdoorInCorridor": {
+          "type": "float",
+          "label": "屋外の音が外廊下で聞こえる割合",
+          "order": 4,
+          "default": 0.55
+        },
+        "outdoorInStairs": {
+          "type": "float",
+          "label": "屋外の音が外階段で聞こえる割合",
+          "order": 5,
+          "default": 0.8
+        },
+        "outdoorInRoom": {
+          "type": "float",
+          "label": "屋外の音が部屋の中で聞こえる割合",
+          "order": 6,
+          "default": 0.15
+        },
+        "roomHF": {
+          "type": "float",
+          "label": "部屋の中で屋外の音の高い音の残り具合（0..1）",
+          "order": 7,
+          "default": 0.2
+        },
+        "fade": {
+          "type": "float",
+          "label": "場所の境目でなめらかにつなぐ幅（m）",
+          "order": 8,
+          "default": 1.5
+        },
+        "lampRange": {
+          "type": "float",
+          "label": "蛍光灯のうなりが聞こえる距離（m）",
+          "order": 9,
+          "default": 6.0
+        }
+      }
+    },
+    "roomLoops": {
+      "kind": "list",
+      "label": "部屋の中の音",
+      "order": 4,
+      "group": "環境音",
+      "fields": {
+        "room": {
+          "type": "string",
+          "label": "部屋の番号",
+          "order": 1
+        },
+        "loop": {
+          "type": "string",
+          "label": "ループの名前",
+          "order": 2
+        },
+        "volume": {
+          "type": "float",
+          "label": "大きさ",
+          "order": 3
+        }
+      }
+    },
+    "shots": {
+      "kind": "record",
+      "label": "一発の音の大きさ",
+      "order": 5,
+      "group": "一発の音",
+      "fields": {
+        "steps": {
+          "type": "float",
+          "label": "足音",
+          "order": 1,
+          "default": 0.42
+        },
+        "doors": {
+          "type": "float",
+          "label": "扉",
+          "order": 2,
+          "default": 0.65
+        },
+        "flash": {
+          "type": "float",
+          "label": "手の灯りのスイッチ",
+          "order": 3,
+          "default": 0.3
+        },
+        "zap": {
+          "type": "float",
+          "label": "蛍光灯のジジッ",
+          "order": 4,
+          "default": 0.35
+        },
+        "zapRange": {
+          "type": "float",
+          "label": "ジジッが聞こえる距離（m）",
+          "order": 5,
+          "default": 7.0
+        }
+      }
+    },
+    "machines": {
+      "kind": "list",
+      "label": "置いてある物の音の群れ",
+      "order": 6,
+      "group": "置いてある物",
+      "fields": {
+        "name": {
+          "type": "string",
+          "label": "群れの名前（spots の machine）",
+          "order": 1
+        },
+        "loop": {
+          "type": "string",
+          "label": "ループの名前（slots が 2 以上なら <loop>_1..n）",
+          "order": 2
+        },
+        "slots": {
+          "type": "int",
+          "label": "同時に鳴らす近い台数",
+          "order": 3,
+          "default": 1
+        },
+        "volume": {
+          "type": "float",
+          "label": "すぐそばでの大きさ",
+          "order": 4
+        },
+        "range": {
+          "type": "float",
+          "label": "聞こえる距離（m）",
+          "order": 5
+        },
+        "period": {
+          "type": "float",
+          "label": "周期（秒）",
+          "order": 6,
+          "default": 60.0
+        },
+        "duty": {
+          "type": "float",
+          "label": "周期のうち動いている割合（1 = いつも）",
+          "order": 7,
+          "default": 1.0
+        },
+        "seed": {
+          "type": "int",
+          "label": "種",
+          "order": 8,
+          "default": 0
+        },
+        "start": {
+          "type": "string",
+          "label": "動き出す時の一発の音（空なら無し）",
+          "order": 9,
+          "default": ""
+        },
+        "startVolume": {
+          "type": "float",
+          "label": "動き出しの音の大きさ",
+          "order": 10,
+          "default": 0.0
+        }
+      }
+    },
+    "spots": {
+      "kind": "list",
+      "label": "置いてある物の置き場所",
+      "order": 7,
+      "group": "置いてある物",
+      "fields": {
+        "machine": {
+          "type": "string",
+          "label": "群れの名前",
+          "order": 1
+        },
+        "x": {
+          "type": "float",
+          "label": "x",
+          "order": 2
+        },
+        "y": {
+          "type": "float",
+          "label": "y",
+          "order": 3
+        },
+        "z": {
+          "type": "float",
+          "label": "z",
+          "order": 4
+        }
+      }
+    },
+    "far": {
+      "kind": "list",
+      "label": "ごく稀な遠くの音",
+      "order": 8,
+      "group": "遠くの音",
+      "fields": {
+        "name": {
+          "type": "string",
+          "label": "音の名前",
+          "order": 1
+        },
+        "every": {
+          "type": "float",
+          "label": "何秒ごとに",
+          "order": 2
+        },
+        "chance": {
+          "type": "float",
+          "label": "鳴る確からしさ（0..1）",
+          "order": 3
+        },
+        "volume": {
+          "type": "float",
+          "label": "大きさ",
+          "order": 4
+        },
+        "seconds": {
+          "type": "float",
+          "label": "音の長さ（秒）",
+          "order": 5
+        },
+        "seed": {
+          "type": "int",
+          "label": "種",
+          "order": 6
+        }
+      }
+    }
+  }
+}

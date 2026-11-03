@@ -1,0 +1,7 @@
+{
+  "version": 1,
+  "title": "文言（終了の確認・読み込みの幕）",
+  "note": "画面に出す字。quitPrompt=Esc や閉じるボタンで出る終了の確認の文言・loadingLabel=起動の読み込みの幕の字（英数字）。",
+  "quitPrompt": "Quit?  Enter: yes  /  Esc: no",
+  "loadingLabel": "Loading"
+}

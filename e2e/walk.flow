@@ -1,0 +1,8 @@
+# 歩く手順の見本: 道路から前へ 2 秒歩き、右を向いてまた歩く（make flow FLOW=e2e/walk.flow）。
+fps 60
+
+start play
+expect quit=Playing
+hold forward 2.0
+hold turnright 0.5
+hold forward 1.0

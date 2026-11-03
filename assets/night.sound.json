@@ -1,0 +1,617 @@
+{
+  "version": 2,
+  "title": "音",
+  "note": "surfaces=足音の面（name と範囲 min/max X・Y・Z。上から順に当てる。どれにも入らなければ concrete）。spaces=響きと環境音の場所（部屋の中は部屋の囲みが先に勝つ。どれにも入らなければ outdoor）。beds=場所の環境音の大きさ（outdoorIn*=屋外の音が他の場所でどれだけ聞こえるか・roomHF=部屋の中で屋外の音の高い音の残り具合・fade=場所の境目でなめらかにつなぐ幅 m・lampRange=蛍光灯のうなりが聞こえる距離 m）。roomLoops=部屋ごとの音。shots=一発の音の大きさ。machines=置いてある物の音の群れ（loop=ループの名前・slots=同時に鳴らす近い台数・range=聞こえる距離 m・period/duty=何秒ごとにどれだけの割合で動くか（1 = いつも）・start=動き出す時の一発の音）。spots=置いてある物の置き場所（machine=群れの名前・x/y/z m。horror_apartment の scripts の置き方の式から）。far=ごく稀な遠くの音（every 秒ごとに chance の確からしさで 1 回）。",
+  "surfaces": [
+    {
+      "name": "metal",
+      "minX": -19.6,
+      "maxX": -17.15,
+      "minY": 0.4,
+      "maxY": 12.5,
+      "minZ": -2.7,
+      "maxZ": 1.25
+    },
+    {
+      "name": "tatami",
+      "minX": -10.11,
+      "maxX": -6.89,
+      "minY": 2.9,
+      "maxY": 5.6,
+      "minZ": -6.75,
+      "maxZ": -3.7
+    },
+    {
+      "name": "wood",
+      "minX": -16.91,
+      "maxX": -3.49,
+      "minY": 2.9,
+      "maxY": 5.6,
+      "minZ": -6.75,
+      "maxZ": -1.2
+    },
+    {
+      "name": "dirt",
+      "minX": -40.0,
+      "maxX": 4.0,
+      "minY": -1.0,
+      "maxY": 0.2,
+      "minZ": -9.0,
+      "maxZ": 5.9
+    }
+  ],
+  "spaces": [
+    {
+      "name": "stairs",
+      "minX": -19.7,
+      "maxX": -17.1,
+      "minY": 0.2,
+      "maxY": 12.5,
+      "minZ": -2.8,
+      "maxZ": 1.3
+    },
+    {
+      "name": "corridor",
+      "minX": -17.0,
+      "maxX": 0.0,
+      "minY": 0.25,
+      "maxY": 12.0,
+      "minZ": -0.1,
+      "maxZ": 1.25
+    }
+  ],
+  "beds": {
+    "outdoor": 0.16,
+    "corridor": 0.1,
+    "stairs": 0.12,
+    "outdoorInCorridor": 0.55,
+    "outdoorInStairs": 0.8,
+    "outdoorInRoom": 0.15,
+    "roomHF": 0.2,
+    "fade": 1.5,
+    "lampRange": 6.0
+  },
+  "roomLoops": [
+    {
+      "room": "203",
+      "loop": "room_clock",
+      "volume": 0.12
+    },
+    {
+      "room": "203",
+      "loop": "room_fridge",
+      "volume": 0.1
+    },
+    {
+      "room": "205",
+      "loop": "room_fridge",
+      "volume": 0.12
+    },
+    {
+      "room": "205",
+      "loop": "room_fan",
+      "volume": 0.07
+    }
+  ],
+  "shots": {
+    "steps": 0.42,
+    "doors": 0.65,
+    "flash": 0.3,
+    "zap": 0.35,
+    "zapRange": 7.0
+  },
+  "machines": [
+    {
+      "name": "ac",
+      "loop": "m_ac_run",
+      "slots": 3,
+      "volume": 0.22,
+      "range": 10.0,
+      "period": 300.0,
+      "duty": 0.6,
+      "seed": 11,
+      "start": "m_ac_start",
+      "startVolume": 0.3
+    },
+    {
+      "name": "heater",
+      "loop": "m_heater_burn",
+      "slots": 2,
+      "volume": 0.18,
+      "range": 7.0,
+      "period": 600.0,
+      "duty": 0.12,
+      "seed": 23,
+      "start": "m_heater_ignite",
+      "startVolume": 0.35
+    },
+    {
+      "name": "vending",
+      "loop": "m_vending",
+      "slots": 1,
+      "volume": 0.28,
+      "range": 9.0,
+      "period": 60.0,
+      "duty": 1.0,
+      "seed": 0,
+      "start": "",
+      "startVolume": 0.0
+    },
+    {
+      "name": "transformer",
+      "loop": "m_transformer",
+      "slots": 1,
+      "volume": 0.1,
+      "range": 12.0,
+      "period": 60.0,
+      "duty": 1.0,
+      "seed": 0,
+      "start": "",
+      "startVolume": 0.0
+    },
+    {
+      "name": "wires",
+      "loop": "m_wires",
+      "slots": 1,
+      "volume": 0.12,
+      "range": 14.0,
+      "period": 60.0,
+      "duty": 1.0,
+      "seed": 0,
+      "start": "",
+      "startVolume": 0.0
+    },
+    {
+      "name": "hood",
+      "loop": "m_hood",
+      "slots": 1,
+      "volume": 0.12,
+      "range": 6.0,
+      "period": 420.0,
+      "duty": 0.3,
+      "seed": 37,
+      "start": "",
+      "startVolume": 0.0
+    },
+    {
+      "name": "neighbors",
+      "loop": "m_neighbors",
+      "slots": 1,
+      "volume": 0.1,
+      "range": 7.0,
+      "period": 360.0,
+      "duty": 0.3,
+      "seed": 41,
+      "start": "",
+      "startVolume": 0.0
+    }
+  ],
+  "far": [
+    {
+      "name": "far_train",
+      "every": 240.0,
+      "chance": 0.5,
+      "volume": 0.12,
+      "seconds": 48.0,
+      "seed": 53
+    },
+    {
+      "name": "far_siren",
+      "every": 420.0,
+      "chance": 0.35,
+      "volume": 0.1,
+      "seconds": 21.0,
+      "seed": 59
+    }
+  ],
+  "spots": [
+    {
+      "machine": "ac",
+      "x": -6.07,
+      "y": 0.65,
+      "z": 0.17
+    },
+    {
+      "machine": "ac",
+      "x": -2.67,
+      "y": 3.45,
+      "z": 0.17
+    },
+    {
+      "machine": "ac",
+      "x": -16.27,
+      "y": 3.45,
+      "z": 0.17
+    },
+    {
+      "machine": "ac",
+      "x": -9.47,
+      "y": 6.25,
+      "z": 0.17
+    },
+    {
+      "machine": "ac",
+      "x": -6.07,
+      "y": 9.05,
+      "z": 0.17
+    },
+    {
+      "machine": "ac",
+      "x": -12.87,
+      "y": 9.05,
+      "z": 0.17
+    },
+    {
+      "machine": "ac",
+      "x": 0.4,
+      "y": 4.0,
+      "z": -1.6
+    },
+    {
+      "machine": "ac",
+      "x": 0.4,
+      "y": 6.8,
+      "z": -4.2
+    },
+    {
+      "machine": "ac",
+      "x": 0.4,
+      "y": 9.6,
+      "z": -2.6
+    },
+    {
+      "machine": "ac",
+      "x": 0.4,
+      "y": 0.35,
+      "z": -3.0
+    },
+    {
+      "machine": "ac",
+      "x": -9.75,
+      "y": 0.6,
+      "z": -7.2
+    },
+    {
+      "machine": "ac",
+      "x": -2.95,
+      "y": 6.2,
+      "z": -7.2
+    },
+    {
+      "machine": "ac",
+      "x": -13.15,
+      "y": 6.2,
+      "z": -7.2
+    },
+    {
+      "machine": "ac",
+      "x": -6.35,
+      "y": 9.0,
+      "z": -7.2
+    },
+    {
+      "machine": "ac",
+      "x": -16.55,
+      "y": 9.0,
+      "z": -7.2
+    },
+    {
+      "machine": "ac",
+      "x": -9.75,
+      "y": 3.4,
+      "z": -7.2
+    },
+    {
+      "machine": "ac",
+      "x": -13.15,
+      "y": 3.4,
+      "z": -7.2
+    },
+    {
+      "machine": "ac",
+      "x": -16.55,
+      "y": 3.4,
+      "z": -7.2
+    },
+    {
+      "machine": "heater",
+      "x": -1.72,
+      "y": 1.73,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -5.12,
+      "y": 1.73,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -8.52,
+      "y": 1.73,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -11.92,
+      "y": 1.73,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -15.32,
+      "y": 1.73,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -1.72,
+      "y": 4.53,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -8.52,
+      "y": 4.53,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -15.32,
+      "y": 4.53,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -1.72,
+      "y": 7.33,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -5.12,
+      "y": 7.33,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -8.52,
+      "y": 7.33,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -11.92,
+      "y": 7.33,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -15.32,
+      "y": 7.33,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -1.72,
+      "y": 10.13,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -5.12,
+      "y": 10.13,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -8.52,
+      "y": 10.13,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -11.92,
+      "y": 10.13,
+      "z": 0.11
+    },
+    {
+      "machine": "heater",
+      "x": -15.32,
+      "y": 10.13,
+      "z": 0.11
+    },
+    {
+      "machine": "vending",
+      "x": -2.05,
+      "y": 1.0,
+      "z": 5.7
+    },
+    {
+      "machine": "vending",
+      "x": -3.12,
+      "y": 1.0,
+      "z": 5.7
+    },
+    {
+      "machine": "transformer",
+      "x": 22.45,
+      "y": 7.2,
+      "z": 6.6
+    },
+    {
+      "machine": "transformer",
+      "x": -12.15,
+      "y": 7.2,
+      "z": 6.6
+    },
+    {
+      "machine": "transformer",
+      "x": -44.55,
+      "y": 7.2,
+      "z": 6.6
+    },
+    {
+      "machine": "transformer",
+      "x": -2.55,
+      "y": 7.2,
+      "z": -10.6
+    },
+    {
+      "machine": "transformer",
+      "x": -14.55,
+      "y": 7.2,
+      "z": -10.6
+    },
+    {
+      "machine": "wires",
+      "x": 22,
+      "y": 10.5,
+      "z": 6.6
+    },
+    {
+      "machine": "wires",
+      "x": 16,
+      "y": 10.5,
+      "z": 6.6
+    },
+    {
+      "machine": "wires",
+      "x": 10,
+      "y": 10.5,
+      "z": 6.6
+    },
+    {
+      "machine": "wires",
+      "x": 4,
+      "y": 10.5,
+      "z": 6.6
+    },
+    {
+      "machine": "wires",
+      "x": -2,
+      "y": 10.5,
+      "z": 6.6
+    },
+    {
+      "machine": "wires",
+      "x": -8,
+      "y": 10.5,
+      "z": 6.6
+    },
+    {
+      "machine": "wires",
+      "x": -14,
+      "y": 10.5,
+      "z": 6.6
+    },
+    {
+      "machine": "wires",
+      "x": -20,
+      "y": 10.5,
+      "z": 6.6
+    },
+    {
+      "machine": "wires",
+      "x": -26,
+      "y": 10.5,
+      "z": 6.6
+    },
+    {
+      "machine": "wires",
+      "x": -32,
+      "y": 10.5,
+      "z": 6.6
+    },
+    {
+      "machine": "wires",
+      "x": -38,
+      "y": 10.5,
+      "z": 6.6
+    },
+    {
+      "machine": "wires",
+      "x": -44,
+      "y": 10.5,
+      "z": 6.6
+    },
+    {
+      "machine": "wires",
+      "x": -3,
+      "y": 10.0,
+      "z": -10.6
+    },
+    {
+      "machine": "wires",
+      "x": -9,
+      "y": 10.0,
+      "z": -10.6
+    },
+    {
+      "machine": "wires",
+      "x": -15,
+      "y": 10.0,
+      "z": -10.6
+    },
+    {
+      "machine": "hood",
+      "x": -8.92,
+      "y": 7.9,
+      "z": 0.05
+    },
+    {
+      "machine": "hood",
+      "x": -15.72,
+      "y": 2.3,
+      "z": 0.05
+    },
+    {
+      "machine": "hood",
+      "x": -2.12,
+      "y": 10.7,
+      "z": 0.05
+    },
+    {
+      "machine": "neighbors",
+      "x": -9.42,
+      "y": 7.1,
+      "z": -1.0
+    },
+    {
+      "machine": "neighbors",
+      "x": -16.22,
+      "y": 1.5,
+      "z": -1.0
+    },
+    {
+      "machine": "neighbors",
+      "x": -2.62,
+      "y": 9.9,
+      "z": -1.0
+    },
+    {
+      "machine": "neighbors",
+      "x": -11.9,
+      "y": 1.5,
+      "z": -6.0
+    },
+    {
+      "machine": "neighbors",
+      "x": -5.1,
+      "y": 7.1,
+      "z": -6.0
+    },
+    {
+      "machine": "neighbors",
+      "x": -15.3,
+      "y": 9.9,
+      "z": -6.0
+    },
+    {
+      "machine": "neighbors",
+      "x": 9.0,
+      "y": 1.5,
+      "z": -1.0
+    }
+  ]
+}

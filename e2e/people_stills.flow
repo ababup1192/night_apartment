@@ -1,0 +1,22 @@
+# 住人の見比べの 4 枚（make people-stills → debug/stills/person_<名前>.png と debug/compare/person_<名前>.png）の手順。
+# 構図は horror_apartment の scripts/people_render.py の SHOTS（game_check が使う player・階段の人は full）を engine の (-x, z, -y) へ直した物。
+# 縦の画角はレンズから（縦 1280 の絵なので 2 atan(18 / レンズ)）。住人の動きの秒は目標の絵と同じ（t で時計を進め、1 秒待って最後のコマを抜く。
+# 地団駄の 0.62 秒はループの次の周の 4.8 + 0.62 = 5.42 秒で撮る）。
+fps 60
+
+start at x=-7.45 y=3.25 z=-3.95 yaw=-143.13 pitch=14.57 fov=78.6 t=1.0
+mark in_swayer
+wait 1.0
+mark out_swayer
+start at x=-11.3 y=3.25 z=-3.5 yaw=-43.53 pitch=21.74 fov=84.0 t=3.4
+mark in_headbanger
+wait 1.0
+mark out_headbanger
+start at x=-5.3 y=3.25 z=-3.85 yaw=166.43 pitch=26.69 fov=78.6 t=4.42
+mark in_stomper
+wait 1.0
+mark out_stomper
+start at x=-17.45 y=0.5 z=-0.35 yaw=-162.6 pitch=-19.28 fov=84.0 stairs=16.967
+mark in_stairwalker
+wait 1.0
+mark out_stairwalker

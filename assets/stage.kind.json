@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "title": "舞台の読み込み方",
+  "note": "起動の時だけ読む（保存即反映しない）。dir=Blender の書き出しのフォルダ。*Max=読む時に絵を縮める長い辺の上限（px。8192 で縮めない）。skip=読まない部品の名前（重さを測る時に外す）。",
+  "dir": "assets/apartment",
+  "baseColorMax": 8192,
+  "normalMax": 8192,
+  "lightmapMax": 8192,
+  "emissiveMax": 8192,
+  "skip": []
+}

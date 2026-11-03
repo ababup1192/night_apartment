@@ -1,0 +1,213 @@
+{
+  "//": "walk.kind.json の形（Studio の sections 方言）。既定は src/WalkDoc.flix の defaults() が正。",
+  "version": 1,
+  "sections": {
+    "walkSpeed": {
+      "kind": "field",
+      "type": "float",
+      "label": "歩く速さ（m/秒）",
+      "order": 1,
+      "default": 1.4,
+      "group": "動き",
+      "min": 0.3,
+      "max": 5
+    },
+    "runSpeed": {
+      "kind": "field",
+      "type": "float",
+      "label": "走る速さ（m/秒）",
+      "order": 2,
+      "default": 3.2,
+      "group": "動き",
+      "min": 0.5,
+      "max": 10
+    },
+    "turnSpeed": {
+      "kind": "field",
+      "type": "float",
+      "label": "キーで向きを変える速さ（度/秒）",
+      "order": 3,
+      "default": 110.0,
+      "group": "動き",
+      "min": 10,
+      "max": 400
+    },
+    "mouseSensitivity": {
+      "kind": "field",
+      "type": "float",
+      "label": "マウス 1 px で向く角（度・キャプチャ中）",
+      "order": 4,
+      "default": 0.18,
+      "group": "動き",
+      "min": 0.01,
+      "max": 1
+    },
+    "invertY": {
+      "kind": "field",
+      "type": "bool",
+      "label": "マウスの上下を逆にする",
+      "order": 4,
+      "default": false,
+      "group": "動き"
+    },
+    "pitchLimit": {
+      "kind": "field",
+      "type": "float",
+      "label": "見上げ見下ろしの上限（度）",
+      "order": 5,
+      "default": 75.0,
+      "group": "動き",
+      "min": 10,
+      "max": 89
+    },
+    "stride": {
+      "kind": "field",
+      "type": "float",
+      "label": "1 歩の長さ（m・足音の間隔）",
+      "order": 6,
+      "default": 0.72,
+      "group": "動き",
+      "min": 0.3,
+      "max": 2
+    },
+    "runStride": {
+      "kind": "field",
+      "type": "float",
+      "label": "走る時の 1 歩の長さ（m）",
+      "order": 7,
+      "default": 1.05,
+      "group": "動き",
+      "min": 0.3,
+      "max": 3
+    },
+    "eyeHeight": {
+      "kind": "field",
+      "type": "float",
+      "label": "目の高さ（m）",
+      "order": 8,
+      "default": 1.6,
+      "group": "体",
+      "min": 0.5,
+      "max": 2.5
+    },
+    "radius": {
+      "kind": "field",
+      "type": "float",
+      "label": "体の半径（m）",
+      "order": 9,
+      "default": 0.22,
+      "group": "体",
+      "min": 0.1,
+      "max": 0.5
+    },
+    "height": {
+      "kind": "field",
+      "type": "float",
+      "label": "体の高さ（m）",
+      "order": 10,
+      "default": 1.7,
+      "group": "体",
+      "min": 0.8,
+      "max": 2.5
+    },
+    "stepHeight": {
+      "kind": "field",
+      "type": "float",
+      "label": "そのまま上がれる段（m）",
+      "order": 11,
+      "default": 0.35,
+      "group": "体",
+      "min": 0.05,
+      "max": 0.6
+    },
+    "gravity": {
+      "kind": "field",
+      "type": "float",
+      "label": "落ちる速さの増え方（m/秒²）",
+      "order": 12,
+      "default": 9.8,
+      "group": "体",
+      "min": 1,
+      "max": 30
+    },
+    "groundY": {
+      "kind": "field",
+      "type": "float",
+      "label": "箱の無い所の地面の高さ（m）",
+      "order": 13,
+      "default": -0.02,
+      "group": "体",
+      "min": -1,
+      "max": 1
+    },
+    "bobHeight": {
+      "kind": "field",
+      "type": "float",
+      "label": "歩く時の頭の上下（m）",
+      "order": 14,
+      "default": 0.025,
+      "group": "見え方",
+      "min": 0,
+      "max": 0.1
+    },
+    "fovY": {
+      "kind": "field",
+      "type": "float",
+      "label": "縦の画角（度）",
+      "order": 15,
+      "default": 58.0,
+      "group": "見え方",
+      "min": 20,
+      "max": 100
+    },
+    "start": {
+      "kind": "record",
+      "label": "歩き始める所",
+      "order": 16,
+      "fields": {
+        "x": {
+          "type": "float",
+          "label": "x（m）",
+          "default": 1.5
+        },
+        "z": {
+          "type": "float",
+          "label": "z（m）",
+          "default": 10.2
+        },
+        "yaw": {
+          "type": "float",
+          "label": "向き（度・0 が +Z）",
+          "default": 200.0
+        }
+      }
+    },
+    "bounds": {
+      "kind": "record",
+      "label": "歩ける範囲",
+      "order": 17,
+      "fields": {
+        "minX": {
+          "type": "float",
+          "label": "minX",
+          "default": -26.0
+        },
+        "maxX": {
+          "type": "float",
+          "label": "maxX",
+          "default": 12.0
+        },
+        "minZ": {
+          "type": "float",
+          "label": "minZ",
+          "default": -8.0
+        },
+        "maxZ": {
+          "type": "float",
+          "label": "maxZ",
+          "default": 13.5
+        }
+      }
+    }
+  }
+}

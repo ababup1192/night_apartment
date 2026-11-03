@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "title": "ドット絵",
+  "note": "ドット絵。羽虫の粒（fly）だけ。3D の場面にビルボードで立て、色は night.lights.json の flies.color を掛ける（絵は明るい 1 色で塗る）。",
+  "paletteFile": "assets/night_apartment.palette.json",
+  "entityId": "night_apartment.sprites",
+  "legend": {
+    "a": "accent",
+    "A": "accentLight",
+    "d": "accentDark"
+  },
+  "sprites": {
+    "fly": {
+      "note": "3×3 の羽虫の粒（真ん中が濃い）。",
+      "anchor": {
+        "x": 0.0,
+        "y": 0.0
+      },
+      "frames": {
+        "a": [
+          ".a.",
+          "aaa",
+          ".a."
+        ]
+      }
+    }
+  }
+}

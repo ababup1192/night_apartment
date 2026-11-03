@@ -1,0 +1,7 @@
+{
+  "note": "このゲーム固有の lint-forbid の規則と除外（engine の forbid.json に足して読む）。",
+  "rules": [],
+  "exempt": {
+    "src/World.flix::clock-advance": "advancedBy は描き出しの場面と見比べの絵で住人の動きの秒をそろえるためだけに呼ぶ。App のループの中では呼ばない"
+  }
+}

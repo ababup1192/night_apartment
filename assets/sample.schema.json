@@ -1,0 +1,8 @@
+{
+  "//": "sample.kind.json の形の宣言（Studio の sections 方言）。",
+  "version": 1,
+  "sections": {
+    "quitPrompt": { "kind": "field", "type": "string", "label": "終了の確認の文言（Esc・閉じるボタンで出る窓）", "order": 1, "default": "Quit?  Enter: yes  /  Esc: no" },
+    "loadingLabel": { "kind": "field", "type": "string", "label": "読み込みの幕の字（英数字）", "order": 2, "default": "Loading" }
+  }
+}

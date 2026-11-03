@@ -1,0 +1,46 @@
+{
+  "version": 1,
+  "title": "操作（キーの割り当て）",
+  "note": "キー割り当て。1 つの操作に複数キーを並べられる(どれを押しても効く)。保存すると即反映。名前は GameEngine.Key の綴り(A〜Z / Up / Down / Left / Right / Space / Enter / LeftShift など)。知らない名前はその 1 個だけ無視され、操作が空になったときはコードの既定(src/KeysDoc.flix)へ落ちる。マウスは窓を押すとキャプチャして、動かすと向きが変わる（Esc で放す）。volume=音量の窓を開け閉め（マウスを放している時だけ。開いている間は ↑↓ で行・←→ で音量）。",
+  "forward": [
+    "W",
+    "Up"
+  ],
+  "back": [
+    "S",
+    "Down"
+  ],
+  "left": [
+    "A"
+  ],
+  "right": [
+    "D"
+  ],
+  "turnLeft": [
+    "Left"
+  ],
+  "turnRight": [
+    "Right"
+  ],
+  "lookUp": [
+    "R"
+  ],
+  "lookDown": [
+    "V"
+  ],
+  "run": [
+    "LeftShift"
+  ],
+  "light": [
+    "F"
+  ],
+  "door": [
+    "E"
+  ],
+  "colliders": [
+    "C"
+  ],
+  "volume": [
+    "M"
+  ]
+}

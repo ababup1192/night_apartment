@@ -1,0 +1,806 @@
+{
+  "version": 1,
+  "title": "Night Apartment",
+  "designWidth": 480,
+  "designHeight": 270,
+  "windowWidth": 960,
+  "windowHeight": 540,
+  "windowScale": 2,
+  "clearColor": {
+    "r": 0.016,
+    "g": 0.02,
+    "b": 0.04
+  },
+  "maxDeltaTime": 0.05,
+  "textures": [],
+  "// glyphs": "起動時に焼く字。auto=出た字から順に焼く / used=ソースとアセットにある字を先に焼く / all=フォントの全字",
+  "glyphs": "auto",
+  "fonts": [
+    {
+      "name": "default",
+      "path": "assets/Xolonium-Regular.ttf",
+      "fontSize": 60.0
+    }
+  ],
+  "sounds": [
+    {
+      "name": "amb_corridor",
+      "path": "assets/sfx/amb_corridor.wav",
+      "looping": true
+    },
+    {
+      "name": "amb_outdoor",
+      "path": "assets/sfx/amb_outdoor.wav",
+      "looping": true
+    },
+    {
+      "name": "amb_stairs",
+      "path": "assets/sfx/amb_stairs.wav",
+      "looping": true
+    },
+    {
+      "name": "door_creak_corridor",
+      "path": "assets/sfx/door_creak_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "door_creak_outdoor",
+      "path": "assets/sfx/door_creak_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "door_creak_room",
+      "path": "assets/sfx/door_creak_room.wav",
+      "looping": false
+    },
+    {
+      "name": "door_creak_stairs",
+      "path": "assets/sfx/door_creak_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "door_open_corridor",
+      "path": "assets/sfx/door_open_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "door_open_outdoor",
+      "path": "assets/sfx/door_open_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "door_open_room",
+      "path": "assets/sfx/door_open_room.wav",
+      "looping": false
+    },
+    {
+      "name": "door_open_stairs",
+      "path": "assets/sfx/door_open_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "door_shut_corridor",
+      "path": "assets/sfx/door_shut_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "door_shut_outdoor",
+      "path": "assets/sfx/door_shut_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "door_shut_room",
+      "path": "assets/sfx/door_shut_room.wav",
+      "looping": false
+    },
+    {
+      "name": "door_shut_stairs",
+      "path": "assets/sfx/door_shut_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "far_siren",
+      "path": "assets/sfx/far_siren.wav",
+      "looping": false
+    },
+    {
+      "name": "far_train",
+      "path": "assets/sfx/far_train.wav",
+      "looping": false
+    },
+    {
+      "name": "flash_off_corridor",
+      "path": "assets/sfx/flash_off_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "flash_off_outdoor",
+      "path": "assets/sfx/flash_off_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "flash_off_room",
+      "path": "assets/sfx/flash_off_room.wav",
+      "looping": false
+    },
+    {
+      "name": "flash_off_stairs",
+      "path": "assets/sfx/flash_off_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "flash_on_corridor",
+      "path": "assets/sfx/flash_on_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "flash_on_outdoor",
+      "path": "assets/sfx/flash_on_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "flash_on_room",
+      "path": "assets/sfx/flash_on_room.wav",
+      "looping": false
+    },
+    {
+      "name": "flash_on_stairs",
+      "path": "assets/sfx/flash_on_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "fluo_zap_1",
+      "path": "assets/sfx/fluo_zap_1.wav",
+      "looping": false
+    },
+    {
+      "name": "fluo_zap_2",
+      "path": "assets/sfx/fluo_zap_2.wav",
+      "looping": false
+    },
+    {
+      "name": "fluo_zap_3",
+      "path": "assets/sfx/fluo_zap_3.wav",
+      "looping": false
+    },
+    {
+      "name": "fluo_zap_4",
+      "path": "assets/sfx/fluo_zap_4.wav",
+      "looping": false
+    },
+    {
+      "name": "m_ac_run_1",
+      "path": "assets/sfx/m_ac_run_1.wav",
+      "looping": true
+    },
+    {
+      "name": "m_ac_run_2",
+      "path": "assets/sfx/m_ac_run_2.wav",
+      "looping": true
+    },
+    {
+      "name": "m_ac_run_3",
+      "path": "assets/sfx/m_ac_run_3.wav",
+      "looping": true
+    },
+    {
+      "name": "m_ac_start",
+      "path": "assets/sfx/m_ac_start.wav",
+      "looping": false
+    },
+    {
+      "name": "m_heater_burn_1",
+      "path": "assets/sfx/m_heater_burn_1.wav",
+      "looping": true
+    },
+    {
+      "name": "m_heater_burn_2",
+      "path": "assets/sfx/m_heater_burn_2.wav",
+      "looping": true
+    },
+    {
+      "name": "m_heater_ignite",
+      "path": "assets/sfx/m_heater_ignite.wav",
+      "looping": false
+    },
+    {
+      "name": "m_hood",
+      "path": "assets/sfx/m_hood.wav",
+      "looping": true
+    },
+    {
+      "name": "m_neighbors",
+      "path": "assets/sfx/m_neighbors.wav",
+      "looping": true
+    },
+    {
+      "name": "m_transformer",
+      "path": "assets/sfx/m_transformer.wav",
+      "looping": true
+    },
+    {
+      "name": "m_vending",
+      "path": "assets/sfx/m_vending.wav",
+      "looping": true
+    },
+    {
+      "name": "m_wires",
+      "path": "assets/sfx/m_wires.wav",
+      "looping": true
+    },
+    {
+      "name": "p_headbanger_hit_1",
+      "path": "assets/sfx/p_headbanger_hit_1.wav",
+      "looping": false
+    },
+    {
+      "name": "p_headbanger_hit_2",
+      "path": "assets/sfx/p_headbanger_hit_2.wav",
+      "looping": false
+    },
+    {
+      "name": "p_headbanger_hit_3",
+      "path": "assets/sfx/p_headbanger_hit_3.wav",
+      "looping": false
+    },
+    {
+      "name": "p_stairwalker_step_concrete_l",
+      "path": "assets/sfx/p_stairwalker_step_concrete_l.wav",
+      "looping": false
+    },
+    {
+      "name": "p_stairwalker_step_concrete_r",
+      "path": "assets/sfx/p_stairwalker_step_concrete_r.wav",
+      "looping": false
+    },
+    {
+      "name": "p_stairwalker_step_ground_l",
+      "path": "assets/sfx/p_stairwalker_step_ground_l.wav",
+      "looping": false
+    },
+    {
+      "name": "p_stairwalker_step_ground_r",
+      "path": "assets/sfx/p_stairwalker_step_ground_r.wav",
+      "looping": false
+    },
+    {
+      "name": "p_stairwalker_step_steel_l",
+      "path": "assets/sfx/p_stairwalker_step_steel_l.wav",
+      "looping": false
+    },
+    {
+      "name": "p_stairwalker_step_steel_r",
+      "path": "assets/sfx/p_stairwalker_step_steel_r.wav",
+      "looping": false
+    },
+    {
+      "name": "p_stomper_stomp_l",
+      "path": "assets/sfx/p_stomper_stomp_l.wav",
+      "looping": false
+    },
+    {
+      "name": "p_stomper_stomp_r",
+      "path": "assets/sfx/p_stomper_stomp_r.wav",
+      "looping": false
+    },
+    {
+      "name": "room_clock",
+      "path": "assets/sfx/room_clock.wav",
+      "looping": true
+    },
+    {
+      "name": "room_fan",
+      "path": "assets/sfx/room_fan.wav",
+      "looping": true
+    },
+    {
+      "name": "room_fridge",
+      "path": "assets/sfx/room_fridge.wav",
+      "looping": true
+    },
+    {
+      "name": "step_concrete_1_corridor",
+      "path": "assets/sfx/step_concrete_1_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_1_outdoor",
+      "path": "assets/sfx/step_concrete_1_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_1_room",
+      "path": "assets/sfx/step_concrete_1_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_1_stairs",
+      "path": "assets/sfx/step_concrete_1_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_2_corridor",
+      "path": "assets/sfx/step_concrete_2_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_2_outdoor",
+      "path": "assets/sfx/step_concrete_2_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_2_room",
+      "path": "assets/sfx/step_concrete_2_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_2_stairs",
+      "path": "assets/sfx/step_concrete_2_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_3_corridor",
+      "path": "assets/sfx/step_concrete_3_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_3_outdoor",
+      "path": "assets/sfx/step_concrete_3_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_3_room",
+      "path": "assets/sfx/step_concrete_3_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_3_stairs",
+      "path": "assets/sfx/step_concrete_3_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_4_corridor",
+      "path": "assets/sfx/step_concrete_4_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_4_outdoor",
+      "path": "assets/sfx/step_concrete_4_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_4_room",
+      "path": "assets/sfx/step_concrete_4_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_concrete_4_stairs",
+      "path": "assets/sfx/step_concrete_4_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_1_corridor",
+      "path": "assets/sfx/step_dirt_1_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_1_outdoor",
+      "path": "assets/sfx/step_dirt_1_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_1_room",
+      "path": "assets/sfx/step_dirt_1_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_1_stairs",
+      "path": "assets/sfx/step_dirt_1_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_2_corridor",
+      "path": "assets/sfx/step_dirt_2_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_2_outdoor",
+      "path": "assets/sfx/step_dirt_2_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_2_room",
+      "path": "assets/sfx/step_dirt_2_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_2_stairs",
+      "path": "assets/sfx/step_dirt_2_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_3_corridor",
+      "path": "assets/sfx/step_dirt_3_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_3_outdoor",
+      "path": "assets/sfx/step_dirt_3_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_3_room",
+      "path": "assets/sfx/step_dirt_3_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_3_stairs",
+      "path": "assets/sfx/step_dirt_3_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_4_corridor",
+      "path": "assets/sfx/step_dirt_4_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_4_outdoor",
+      "path": "assets/sfx/step_dirt_4_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_4_room",
+      "path": "assets/sfx/step_dirt_4_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_dirt_4_stairs",
+      "path": "assets/sfx/step_dirt_4_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_1_corridor",
+      "path": "assets/sfx/step_metal_1_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_1_outdoor",
+      "path": "assets/sfx/step_metal_1_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_1_room",
+      "path": "assets/sfx/step_metal_1_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_1_stairs",
+      "path": "assets/sfx/step_metal_1_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_2_corridor",
+      "path": "assets/sfx/step_metal_2_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_2_outdoor",
+      "path": "assets/sfx/step_metal_2_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_2_room",
+      "path": "assets/sfx/step_metal_2_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_2_stairs",
+      "path": "assets/sfx/step_metal_2_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_3_corridor",
+      "path": "assets/sfx/step_metal_3_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_3_outdoor",
+      "path": "assets/sfx/step_metal_3_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_3_room",
+      "path": "assets/sfx/step_metal_3_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_3_stairs",
+      "path": "assets/sfx/step_metal_3_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_4_corridor",
+      "path": "assets/sfx/step_metal_4_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_4_outdoor",
+      "path": "assets/sfx/step_metal_4_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_4_room",
+      "path": "assets/sfx/step_metal_4_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_metal_4_stairs",
+      "path": "assets/sfx/step_metal_4_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_1_corridor",
+      "path": "assets/sfx/step_tatami_1_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_1_outdoor",
+      "path": "assets/sfx/step_tatami_1_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_1_room",
+      "path": "assets/sfx/step_tatami_1_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_1_stairs",
+      "path": "assets/sfx/step_tatami_1_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_2_corridor",
+      "path": "assets/sfx/step_tatami_2_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_2_outdoor",
+      "path": "assets/sfx/step_tatami_2_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_2_room",
+      "path": "assets/sfx/step_tatami_2_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_2_stairs",
+      "path": "assets/sfx/step_tatami_2_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_3_corridor",
+      "path": "assets/sfx/step_tatami_3_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_3_outdoor",
+      "path": "assets/sfx/step_tatami_3_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_3_room",
+      "path": "assets/sfx/step_tatami_3_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_3_stairs",
+      "path": "assets/sfx/step_tatami_3_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_4_corridor",
+      "path": "assets/sfx/step_tatami_4_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_4_outdoor",
+      "path": "assets/sfx/step_tatami_4_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_4_room",
+      "path": "assets/sfx/step_tatami_4_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_tatami_4_stairs",
+      "path": "assets/sfx/step_tatami_4_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_1_corridor",
+      "path": "assets/sfx/step_wood_1_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_1_outdoor",
+      "path": "assets/sfx/step_wood_1_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_1_room",
+      "path": "assets/sfx/step_wood_1_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_1_stairs",
+      "path": "assets/sfx/step_wood_1_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_2_corridor",
+      "path": "assets/sfx/step_wood_2_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_2_outdoor",
+      "path": "assets/sfx/step_wood_2_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_2_room",
+      "path": "assets/sfx/step_wood_2_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_2_stairs",
+      "path": "assets/sfx/step_wood_2_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_3_corridor",
+      "path": "assets/sfx/step_wood_3_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_3_outdoor",
+      "path": "assets/sfx/step_wood_3_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_3_room",
+      "path": "assets/sfx/step_wood_3_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_3_stairs",
+      "path": "assets/sfx/step_wood_3_stairs.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_4_corridor",
+      "path": "assets/sfx/step_wood_4_corridor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_4_outdoor",
+      "path": "assets/sfx/step_wood_4_outdoor.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_4_room",
+      "path": "assets/sfx/step_wood_4_room.wav",
+      "looping": false
+    },
+    {
+      "name": "step_wood_4_stairs",
+      "path": "assets/sfx/step_wood_4_stairs.wav",
+      "looping": false
+    }
+  ],
+  "editor": {
+    "resources": [
+      {
+        "id": "theme",
+        "pattern": "assets/night_apartment.theme.json",
+        "title": "色（背景・差し色）",
+        "schema": "assets/theme.schema.json",
+        "role": "material"
+      },
+      {
+        "id": "sprite",
+        "pattern": "assets/*.sprite.json",
+        "title": "ドット絵",
+        "schema": "assets/sprite.schema.json",
+        "role": "material"
+      },
+      {
+        "id": "keys",
+        "pattern": "assets/player.keys.json",
+        "title": "キー割り当て（どのキーで動かすか）",
+        "schema": "assets/keys.schema.json",
+        "role": "tuning"
+      },
+      {
+        "id": "sample",
+        "pattern": "assets/sample.kind.json",
+        "title": "文言（終了の確認・読み込みの幕）",
+        "schema": "assets/sample.schema.json",
+        "role": "tuning"
+      },
+      {
+        "id": "walk",
+        "pattern": "assets/walk.kind.json",
+        "title": "歩く手触り（速さ・目の高さ・体の大きさ）",
+        "schema": "assets/walk.schema.json",
+        "role": "tuning"
+      },
+      {
+        "id": "look",
+        "pattern": "assets/night.look.json",
+        "title": "夜の空気と画面の仕上げ（霧・露出・ブルーム・粒）",
+        "schema": "assets/look.schema.json",
+        "role": "material"
+      },
+      {
+        "id": "lights",
+        "pattern": "assets/night.lights.json",
+        "title": "動く光（手の灯り・蛍光灯の点滅・羽虫）",
+        "schema": "assets/lights.schema.json",
+        "role": "tuning"
+      },
+      {
+        "id": "sound",
+        "pattern": "assets/night.sound.json",
+        "title": "音の大きさと鳴る物の置き場所",
+        "schema": "assets/sound.schema.json",
+        "role": "tuning"
+      },
+      {
+        "id": "rooms",
+        "pattern": "assets/rooms.kind.json",
+        "title": "2 階の部屋（玄関の扉の速さと角・部屋を描く距離・部屋の灯り）",
+        "schema": "assets/rooms.schema.json",
+        "role": "tuning"
+      },
+      {
+        "id": "people",
+        "pattern": "assets/people.kind.json",
+        "title": "住人（照らす灯り・音の大きさ・階段の人が歩き出す所）",
+        "schema": "assets/people.schema.json",
+        "role": "tuning"
+      },
+      {
+        "id": "tour",
+        "pattern": "assets/tour.route.json",
+        "title": "紹介の動画で歩く道筋",
+        "schema": "assets/tour.schema.json",
+        "role": "tuning"
+      },
+      {
+        "id": "stage",
+        "pattern": "assets/stage.kind.json",
+        "title": "舞台の読み込み方（書き出しのフォルダ・絵の上限。起動の時だけ読む）",
+        "schema": "assets/stage.schema.json",
+        "role": "tuning"
+      },
+      {
+        "id": "scenes",
+        "pattern": "assets/*.scenes.json",
+        "title": "場面の説明（ギャラリーに出る題と一言）",
+        "schema": "assets/scenes.schema.json",
+        "role": "tuning"
+      },
+      {
+        "id": "project",
+        "pattern": "project.json",
+        "schema": "project.schema.json",
+        "title": "ゲームの題・画面",
+        "role": "tuning"
+      }
+    ]
+  },
+  "scene3dTextureBudgetMB": 640,
+  "scene3dTextureBudgetCount": 160
+}

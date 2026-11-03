@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "title": "2 階の部屋（玄関の扉・描く距離・部屋の灯り）",
+  "note": "door=玄関の扉（speedDeg=回る速さ 度/秒・openDeg=E で開け切る角 度（負で外廊下へ。書き出しの止まる角 -90 より先へは回さない）・reach=E が届く距離 m・facingDeg=扉を向いているとみなす角 度）。draw=部屋を描くか（insideMargin=部屋の囲みの外へ足す幅 m・seeRange=開いた扉越しに描く距離 m・seeConeDeg=扉を見ているとみなす角 度・nearRange=向きによらず描く距離 m・ajarDeg=開いているとみなす角 度）。light=部屋の灯り（gain=Blender の 1 W あたりの強さ・minIntensity/maxIntensity=強さの下限と上限・rangeScale=届く距離の倍率・tvIntensity=ちらつく灯り（テレビ）の明るい時の強さ・tvMin=テレビのちらつきの一番暗い所・tvRate=1 秒に替わる回数）。",
+  "door": {
+    "speedDeg": 95.0,
+    "openDeg": -88.0,
+    "reach": 1.7,
+    "facingDeg": 55.0
+  },
+  "draw": {
+    "insideMargin": 0.4,
+    "seeRange": 14.0,
+    "seeConeDeg": 80.0,
+    "nearRange": 1.6,
+    "ajarDeg": 1.0
+  },
+  "light": {
+    "gain": 0.02,
+    "minIntensity": 0.04,
+    "maxIntensity": 0.35,
+    "rangeScale": 1.0,
+    "tvIntensity": 0.6,
+    "tvMin": 0.2,
+    "tvRate": 7.0
+  }
+}

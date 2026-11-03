@@ -1,0 +1,21 @@
+# 2 階の部屋の中の 4 枚（make room-stills → debug/stills/room_<番号>.png と debug/compare/room_<番号>.png）の手順。
+# 構図は horror_apartment の scripts/game_check.py の ROOM_CAMS（Blender の (x, y, z) を engine の (-x, z, -y) へ・レンズ 18 mm = 縦の画角 58.7 度）。
+# 1 構図 1 秒ずつ撮り、各区間の最後のコマを抜く。手の灯りは点けたまま（目標の絵も手の灯りを点けて描いている）。
+fps 60
+
+start at x=-5.0 y=3.25 z=-3.9 yaw=170.05 pitch=19.06 fov=58.7
+mark in_r202
+wait 1.0
+mark out_r202
+start at x=-7.3 y=3.25 z=-4.0 yaw=215.13 pitch=12.81 fov=58.7
+mark in_r203
+wait 1.0
+mark out_r203
+start at x=-11.8 y=3.25 z=-2.4 yaw=185.25 pitch=11.64 fov=58.7
+mark in_r204
+wait 1.0
+mark out_r204
+start at x=-15.2 y=3.25 z=-2.7 yaw=177.88 pitch=7.03 fov=58.7
+mark in_r205
+wait 1.0
+mark out_r205

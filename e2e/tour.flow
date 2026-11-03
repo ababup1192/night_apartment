@@ -1,0 +1,9 @@
+# 紹介の動画（make video → debug/video/tour.mp4）の手順。道筋は assets/tour.route.json（自動の操縦が歩く）。
+# 道路 → 自販機の前で立ち止まる → 門から敷地へ → 外階段を上る → 2 階の外廊下を奥へ → ちらつく蛍光灯の下（部屋へ向かい始める所まで。部屋は e2e/rooms.flow）。
+fps 60
+
+start tour
+wait 0.3
+mark in_tour
+until point=aside_205 max 90
+mark out_tour
