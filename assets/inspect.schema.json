@@ -1,0 +1,18 @@
+{
+  "//": "inspect.kind.json の形の宣言（Studio の sections 方言）。既定は src/InspectDoc.flix の defaults() が正。",
+  "version": 1,
+  "sections": {
+    "reach": { "kind": "field", "type": "float", "label": "調べられる距離（m）", "order": 1, "default": 2.2, "group": "出し方" },
+    "showSeconds": { "kind": "field", "type": "float", "label": "文言を出しておく秒", "order": 2, "default": 4.0, "group": "出し方" },
+    "charsPerSecond": { "kind": "field", "type": "float", "label": "1 秒に出す字の数", "order": 3, "default": 40.0, "group": "出し方" },
+    "things": {
+      "kind": "list",
+      "label": "調べられる物（ノードの名前に一番長く合う頭の文言を出す）",
+      "order": 4,
+      "fields": {
+        "prefix": { "type": "text", "order": 1, "label": "当たり判定のノードの名前の頭（COL_…）" },
+        "text": { "type": "text", "order": 2, "label": "出す文言（英数字）" }
+      }
+    }
+  }
+}

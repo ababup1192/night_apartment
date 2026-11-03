@@ -30,7 +30,7 @@ mod PostView {
                 :: { name = postPass(), clear = black, items = mainFill(look, dip, t) :: Nil }
                 :: Nil;
         let at = s -> RenderTarget.withHdr({ scale = s | RenderTarget.defaultDescriptor() });
-        { targets = Map#{ scenePass() => RenderTarget.withHdr(RenderTarget.windowDescriptor()),
+        { targets = Map#{ scenePass() => RenderTarget.withMsaa(look#msaaSamples, RenderTarget.withHdr(RenderTarget.windowDescriptor())),
                           brightPass() => at(look#bloomScale),
                           bloomPassA() => at(look#bloomScale * 0.5),
                           bloomPassB() => at(look#bloomScale * 0.5),

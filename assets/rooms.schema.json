@@ -69,17 +69,17 @@
         "gain": {
           "type": "float",
           "label": "1 W あたりの強さ",
-          "default": 0.02
+          "default": 0.026
         },
         "minIntensity": {
           "type": "float",
           "label": "強さの下限",
-          "default": 0.04
+          "default": 0.05
         },
         "maxIntensity": {
           "type": "float",
           "label": "強さの上限",
-          "default": 0.35
+          "default": 0.45
         },
         "rangeScale": {
           "type": "float",

@@ -6,7 +6,11 @@
 // 階段の人は歩き出した時刻からの秒で 1 回だけ流れる（root motion。Root の動きが体を運び、置き場所は歩き出す所）。
 // 読み込み（load）だけが IO で、ほかは純粋。
 mod People {
-    use fge::{AnimationClip3d, Color, DocJson, Gltf, JsonCodec, LoadProgress, Log, Mat4, Model3d, Pose3d, Scene3d, ShaderDoc, Skin3d, Texture3d, Vec2, Vec3}
+    use fge::{
+        AnimationClip3d, CharacterBody3d, CollisionShape3d, CollisionWorld3d, Color, DocJson, Gltf,
+        ImageData, JsonCodec, LoadProgress, Log, Mat4, Model3d, Num, Pose3d, Scene3d, ShaderDoc,
+        Skin3d, Texture3d, Vec3
+    }
     use Util.Json.Json
 
     /// 動きの中の出来事 1 つ: 秒・名前（hit・stomp_l・step_r など）・足が着いた面（steel・concrete・ground。足音だけ）。
@@ -79,20 +83,21 @@ mod People {
 
     /// 書き出しのフォルダ dir の manifest.json の住人を全部読む（絵は limits まで縮める）。読めない人は理由を 1 行出して置かない。
     pub def load(dir: String, limits: Gltf.TextureLimits): List[Person] \ Fs.FileRead + IO + LoadProgress =
+        let dec = LoadProgress.imageDecoder();
         let text = Fs.FileRead.read("${dir}/manifest.json") |> Result.getWithDefault("");
         let raws = entriesOf(text) |> LoadProgress.mapWithProgress("reading people...", e ->
             (e, Fs.FileRead.readBytes("${dir}/${e#glb}") |> Result.mapErr(err -> "${e#glb}: 読めない（${err}）")));
         raws
-            |> LoadProgress.parMapWithProgress("decoding people...", raw -> decode(limits, raw))
+            |> LoadProgress.parMapWithProgress("decoding people...", raw -> decode(dec, limits, raw))
             |> List.filterMap(r -> match r {
                 case Ok(p)    => Some(p)
                 case Err(why) => Log.warnThen("[people] ${why}", None)
             })
 
     /// glb のバイトを形・骨・動きへ解く（骨か動きの無い glb は Err）。
-    def decode(limits: Gltf.TextureLimits, raw: (Entry, Result[String, Vector[Int8]])): Result[String, Person] \ IO =
+    def decode(dec: ImageData.ImageDecoder, limits: Gltf.TextureLimits, raw: (Entry, Result[String, Vector[Int8]])): Result[String, Person] \ IO =
         let (e, bytes) = raw;
-        bytes |> Result.flatMap(b -> Gltf.fromGlbTexturedWith(limits, b) |> Result.mapErr(why -> "${e#glb}: ${why}"))
+        bytes |> Result.flatMap(b -> Gltf.fromGlbTexturedUsing(dec, limits, b) |> Result.mapErr(why -> "${e#glb}: ${why}"))
             |> Result.flatMap(model -> {
                 let clip = Map.valuesOf(model#clips) |> List.head;
                 match (model#skin, clip) {
@@ -142,21 +147,22 @@ mod People {
     /// 足元 feet に立つカプセルを囲む縦の箱（向きは人の向き）。
     /// WhyNot: 丸い柱の押し出しを別に書かない — 体の押し出し・細かく区切って進む・食い込みの検査が全部箱の規則なので、
     /// 箱にすれば同じ道を通る（角が半径の 0.41 倍だけ外へ出る）。
-    pub def capsuleBox(e: Entry, feet: Vec3.Vec3): Collider.Box =
-        let (s, c) = (Vec2.sin(e#yaw), Vec2.cos(e#yaw));
+    pub def capsuleBox(e: Entry, feet: Vec3.Vec3): CollisionShape3d.Box3d =
+        let (s, c) = (Num.sin(e#yaw), Num.cos(e#yaw));
         let h = e#capsule#height / 2.0;
         { center = Vec3.v3(feet#x, feet#y + h, feet#z), ax = Vec3.v3(c, 0.0, 0.0 - s), ay = Vec3.v3(0.0, 1.0, 0.0),
           az = Vec3.v3(s, 0.0, c), half = Vec3.v3(e#capsule#radius, h, e#capsule#radius) }
 
     /// 部屋にいる人のカプセルの箱（いつも同じ所に立つので、常に効く箱に足す）。
-    pub def residentBoxes(people: List[Entry]): List[Collider.Box] =
+    pub def residentBoxes(people: List[Entry]): List[CollisionShape3d.Box3d] =
         people |> List.filter(isResident) |> List.map(e -> capsuleBox(e, e#position))
 
     /// 部屋にいる人ごとの、カプセル（段の高さより上）が箱へ食い込む一番深い所（m。食い込まなければ 0）。書き出しの置き場所の確かめ。
-    pub def placementOverlaps(boxes: List[Collider.Box], stepHeight: Float64, people: List[Entry]): List[(String, Float64)] =
-        people |> List.filter(isResident) |> List.map(e ->
-            (e#id, Collider.deepestOverlap(boxes, { radius = e#capsule#radius, height = e#capsule#height, stepHeight = stepHeight },
-                                           e#position#x, e#position#y, e#position#z)))
+    pub def placementOverlaps(world: CollisionWorld3d.CollisionWorld3d, stepHeight: Float64, people: List[Entry]): List[(String, Float64)] =
+        people |> List.filter(isResident) |> List.map(e -> {
+            let s = { stepHeight = stepHeight | CharacterBody3d.settings(e#capsule#radius, e#capsule#height) };
+            (e#id, CharacterBody3d.overlapDepth(world, Nil, s, CharacterBody3d.bodyAt(e#position)))
+        })
 
     // ── 階段の人が歩き出す所 ──
 

@@ -36,7 +36,7 @@ mod RoomsDoc {
         Doc.Doc({ version = 1,
                   door = { speedDeg = 95.0, openDeg = -88.0, reach = 1.7, facingDeg = 55.0 },
                   draw = { insideMargin = 0.4, seeRange = 14.0, seeConeDeg = 80.0, nearRange = 1.6, ajarDeg = 1.0 },
-                  light = { gain = 0.02, minIntensity = 0.04, maxIntensity = 0.35, rangeScale = 1.0, tvIntensity = 0.6, tvMin = 0.2, tvRate = 7.0 } })
+                  light = { gain = 0.026, minIntensity = 0.05, maxIntensity = 0.45, rangeScale = 1.0, tvIntensity = 0.6, tvMin = 0.2, tvRate = 7.0 } })
 
     pub def fromJson(text: String): Option[Doc] = DocJson.decodeObject(fromRoot, text)
 

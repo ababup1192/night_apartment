@@ -27,6 +27,8 @@ mod WalkDoc {
         radius = Float64,
         height = Float64,
         stepHeight = Float64,
+        // 床として乗れる面の傾きの上限（度。超える面は壁。外階段の段板は約 43 度）。
+        floorMaxAngleDeg = Float64,
         // 落ちる速さの増え方（m/秒²）と、当たり判定の箱の無い所の地面の高さ（m。側溝・歩道の継ぎ目で落ちない）。
         gravity = Float64,
         groundY = Float64,
@@ -47,7 +49,7 @@ mod WalkDoc {
     /// コード側の既定値（assets/walk.kind.json と同じ値から出発する）。
     pub def defaults(): Doc =
         Doc.Doc({ version = 1, walkSpeed = 1.4, runSpeed = 3.2, turnSpeed = 110.0, mouseSensitivity = 0.18, invertY = false, pitchLimit = 75.0,
-                  eyeHeight = 1.6, radius = 0.22, height = 1.7, stepHeight = 0.35, gravity = 9.8, groundY = -0.02,
+                  eyeHeight = 1.6, radius = 0.22, height = 1.7, stepHeight = 0.35, floorMaxAngleDeg = 60.0, gravity = 9.8, groundY = -0.02,
                   bobHeight = 0.025, stride = 0.72, runStride = 1.05, fovY = 58.0,
                   start = { x = 1.5, z = 10.2, yaw = 200.0 },
                   bounds = { minX = -26.0, maxX = 12.0, minZ = -8.0, maxZ = 13.5 } })
@@ -70,6 +72,7 @@ mod WalkDoc {
                   invertY = JsonCodec.boolOr("invertY", d#invertY, root),
                   pitchLimit = f("pitchLimit", d#pitchLimit), eyeHeight = f("eyeHeight", d#eyeHeight),
                   radius = f("radius", d#radius), height = f("height", d#height), stepHeight = f("stepHeight", d#stepHeight),
+                  floorMaxAngleDeg = f("floorMaxAngleDeg", d#floorMaxAngleDeg),
                   gravity = f("gravity", d#gravity), groundY = f("groundY", d#groundY), bobHeight = f("bobHeight", d#bobHeight),
                   stride = f("stride", d#stride), runStride = f("runStride", d#runStride), fovY = f("fovY", d#fovY),
                   start = { x = JsonCodec.floatOr("x", d#start#x, s), z = JsonCodec.floatOr("z", d#start#z, s),

@@ -7,7 +7,10 @@
 // 終了の確認の窓（quitPrompt）は Layer.Prompt に置き、場面のどれよりも手前に出る。
 mod View {
 
-    use fge::{App, Color, FrameDiagnostics, Mat4, Mesh3d, RawDraw, Render, RenderTarget, Scene3d, SortingLayer, TextDraw, Vec2, Vec3, ZStack}
+    use fge::{
+        App, Color, FrameDiagnostics, Mat4, Mesh3d, Num, RawDraw, Render, RenderTarget, Scene3d,
+        SortingLayer, TextDraw, Vec2, Vec3, ZStack
+    }
     use ZOrder.Layer
 
     /// 描くのに要る値。部品は World でなくこれを読む（lint/rules.flix の view-no-world）。
@@ -22,7 +25,9 @@ mod View {
         looking = Bool,
         diagnostics = List[String],
         // 隅の音量の印と窓（マウスを放している時だけ。動画と静止画では None）。
-        volume = Option[VolumeView.In]
+        volume = Option[VolumeView.In],
+        // E で調べた物の文言（出しておく秒の間だけ）。
+        caption = Option[CaptionView.In]
     }
 
     /// 描く元と World から描くのに要る値だけを写す（View の中で World を読むのは入口の frame・passPlan とここだけ）。
@@ -39,7 +44,11 @@ mod View {
           warm = World.loadingOf(w) |> Option.map(l -> warmPlan(res, stage, l#step - 1)) |> Option.getWithDefault(Render.passPlan(Nil)),
           theme = res#theme, askingQuit = World.isAskingQuit(w), quitPrompt = SampleDoc.rec(res#sample)#quitPrompt,
           looking = World.isLooking(w), diagnostics = World.diagnosticsOf(w) |> Option.map(FrameDiagnostics.summaryLines) |> Option.getWithDefault(Nil),
-          volume = if (World.showsVolumeIcon(w)) Some({ prefs = World.prefsOf(w), menu = World.volumeMenuOf(w), theme = res#theme, t = t }) else None }
+          volume = if (World.showsVolumeIcon(w)) Some({ prefs = World.prefsOf(w), menu = World.volumeMenuOf(w), theme = res#theme, t = t }) else None,
+          caption = World.captionOf(res, w) |> Option.map(e -> {
+              let doc = InspectDoc.rec(res#inspect);
+              { text = fst(e), age = snd(e), showSeconds = doc#showSeconds, charsPerSecond = doc#charsPerSecond, theme = res#theme }
+          }) }
 
     /// 動画と静止画に撮る時の値（遊ぶ人のための音量の印は撮らない）。
     pub def inputForCapture(res: Res.Res, w: World.World): In = { volume = None | inputOf(res, w) }
@@ -48,7 +57,7 @@ mod View {
     def stageIn(res: Res.Res, w: World.World, t: Float64): StageView.In =
         let walk = WalkDoc.rec(res#walk);
         let body = World.walkerOf(w);
-        let eye = Vec3.v3(body#x, Walker.eyeY(walk, body), body#z);
+        let eye = Walker.eyeOf(walk, body);
         let rooms = res#stage#rooms;
         let doc = RoomsDoc.rec(res#rooms);
         let drawn = rooms |> List.filter(r -> Rooms.isDrawn(doc#draw, r, eye, body#yaw, World.doorAngle(r, w))) |> List.map(r -> r#id) |> List.toSet;
@@ -63,8 +72,7 @@ mod View {
           textures = res#textures, atlas = res#atlas,
           colliders = if (World.showsColliders(w))
                           Some({ boxes = res#colliderMesh,
-                                 doors = ColliderMesh.boxesMesh(List.flatten(Doors.leafBoxes(rooms, World.doorsOf(w)) :: People.residentBoxes(res#residents |> List.map(p -> p#entry))
-                                                                             :: Option.toList(World.stairwalkerBox(res, w)) :: Nil)),
+                                 doors = ColliderMesh.movingMesh(List.flatten(Doors.leafBoxes(rooms, World.doorsOf(w)) :: Option.toList(World.stairwalkerBox(res, w)) :: Nil)),
                                  body = res#bodyMesh, feet = Vec3.v3(body#x, body#feet, body#z) })
                       else None }
 
@@ -87,7 +95,7 @@ mod View {
         let n = Res.partCount(res);
         let none = Render.passPlan(Nil);
         if (index < 0) none
-        else if (index < n) List.nth(index, res#placed) |> Option.map(g -> warmPart(stage, g#items |> List.map(Stage.instanceOf(Map#{ Stage.gainParam() => 1.0 })))) |> Option.getWithDefault(none)
+        else if (index < n) List.nth(index, res#placed) |> Option.map(g -> warmPart(stage, g#items |> List.map(Stage.instanceOf(Map.empty())))) |> Option.getWithDefault(none)
         else if (index == n) {
             let full = StageView.passPlan(stage);
             let people = warmPart(stage, res#residents |> List.flatMap(p -> People.instancesAt(p, 0.0)));
@@ -102,7 +110,7 @@ mod View {
         let hi = bounds |> List.foldLeft((acc, b) -> Vec3.v3(Float64.max(acc#x, b#max#x), Float64.max(acc#y, b#max#y), Float64.max(acc#z, b#max#z)), Vec3.v3(-1.0e9, -1.0e9, -1.0e9));
         let c = Vec3.mul(Vec3.add(lo, hi), 0.5);
         let size = Float64.max(1.0, Vec3.length(Vec3.sub(hi, lo)));
-        let camera = { eye = Vec3.v3(c#x, c#y, hi#z + size), yaw = Walker.pi(), pitch = 0.0, fovY = 1.2, near = 0.1, far = 4.0 * size };
+        let camera = { eye = Vec3.v3(c#x, c#y, hi#z + size), yaw = Num.pi(), pitch = 0.0, fovY = 1.2, near = 0.1, far = 4.0 * size };
         let scene = { instances = placed, textures = stage#textures
                       | Scene3d.scene(camera, { x = World.width() / 4.0, y = World.height() / 4.0 }) };
         let name = "warmPart";
@@ -143,7 +151,8 @@ mod View {
 
     // ── 画面の上の小さな印（Layer.Hud） ──
 
-    /// マウスをキャプチャしている間だけ、画面の真ん中に 2 px の目立たない点（向いている所を指す）と、F3 の診断の行（左上）。
+    /// マウスをキャプチャしている間だけ、画面の真ん中に 2 px の目立たない点（向いている所を指す）と、F3 の診断の行（左上）と、
+    /// E で調べた物の文言（下）。
     pub def hud(ctx: App.ViewCtx, w: In): List[Render.PlacedItem] =
         let theme = ThemeDoc.rec(w#theme);
         let dot = if (w#looking and not w#askingQuit)
@@ -155,7 +164,8 @@ mod View {
             TextDraw.centered({ text = line, atlas = ctx#atlas, size = size, color = theme#accent, z = 1,
                                 centerX = 4.0 + TextDraw.width(line, ctx#atlas, size) / 2.0, y = 4.0 + Int32.toFloat64(i) * (size + 2.0) })
         });
-        List.append(dot, lines)
+        let caption = if (w#askingQuit) Nil else w#caption |> Option.map(CaptionView.items(ctx)) |> Option.getWithDefault(Nil);
+        List.flatten(dot :: lines :: caption :: Nil)
 
     // ── 終了の確認の窓（Layer.Prompt） ──
 

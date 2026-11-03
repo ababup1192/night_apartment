@@ -4,7 +4,7 @@
 // 点に press があれば、決めた向きを向き終えた所で E を 1 回押す（玄関の扉を開け閉めする）。light があれば着いた所で手の灯りをそうする。
 // 出すのはキーと同じ操作（PlayStep.Act）なので、当たり判定・扉・足音は手で歩く時と同じ規則を通る。
 mod Pilot {
-    use fge::{Clock, Num, Vec2}
+    use fge::{Clock, Num}
 
     /// 何番目の点へ向かっているか・その点で待った秒・着いたか・その点へ向かい始めてからの秒（挟まって着けない時に諦める）・
     /// その点で E を押したか・挟まって諦めた点の数。
@@ -38,7 +38,7 @@ mod Pilot {
     /// 道筋を歩き終えたか。
     pub def isDone(tour: TourDoc.Rec, s: State): Bool = s#index >= List.length(tour#points)
 
-    def deg(r: Float64): Float64 = r * 180.0 / Walker.pi()
+    def deg(r: Float64): Float64 = r * 180.0 / Num.pi()
 
     /// -180..180 へ折り返した角の差（度）。
     def wrapDeg(a: Float64): Float64 = Num.wrapTo(360.0, a + 180.0) - 180.0
@@ -59,11 +59,11 @@ mod Pilot {
             case None => (walking({ lookDeg = ease(0.0 - deg(w#pitch), tour#turnRate, dt) | Walker.idle() }), s)
             case Some(p) =>
                 let (dx, dz) = (p#x - w#x, p#z - w#z);
-                let dist = Vec2.sqrt(dx * dx + dz * dz);
+                let dist = Num.sqrt(dx * dx + dz * dz);
                 if (not s#arrived and dist > tour#arriveRadius and s#heading > giveUpSeconds())
                     (PlayStep.idle(), { missed = s#missed + 1 | nextOf(s) })
                 else if (not s#arrived and dist > tour#arriveRadius) {
-                    let diff = wrapDeg(deg(Vec2.atan2(dx, dz)) - deg(w#yaw));
+                    let diff = wrapDeg(deg(Num.atan2(dx, dz)) - deg(w#yaw));
                     let facing = if (Float64.abs(diff) < 50.0) 1.0 else 0.25;
                     let slow = Num.clamp(0.4, 1.0, dist / 0.9);
                     (walking({ forward = facing * slow, turnDeg = ease(diff, tour#turnRate, dt),

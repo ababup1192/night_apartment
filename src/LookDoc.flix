@@ -11,13 +11,14 @@ mod LookDoc {
         // ベイクした光に掛ける倍率（書き出しの ×2 と露出 2^0.6 を掛けた値）・自分で光る絵の倍率・
         // ベイクの無い物（金網・ネット）に当てる環境光。
         lightmapIntensity = Float64,
-        emissiveGain = Float64,
+        emissionIntensity = Float64,
         ambient = Color,
-        // 空: 天頂の色・地平の色（街の明かりが霧に映る暖かい靄）・地平から上へ色が移る幅（画面の高さの割合）。
+        // WhyNot: 地平の色を霧の色にそろえない — 地平の暖かい靄が街明かりの差し色（画風の注文）。遠くの地面の霧との継ぎ目は地平の線に出る。
+        // 空: 天頂の色・地平の色（街の明かりが霧に映る暖かい靄）・地平から天頂へ色が寄る曲がり（3D の空。地平より下は霧の色）。
         // 距離の霧（色・かかり始め・かかり切る距離 m）。
         skyColor = Color,
         horizonColor = Color,
-        horizonSpan = Float64,
+        skyCurve = Float64,
         fogColor = Color,
         fogNear = Float64,
         fogFar = Float64,
@@ -31,6 +32,8 @@ mod LookDoc {
         bloomRadius = Float64,
         bloomTaps = Int32,
         bloomScale = Float64,
+        // 場面の Pass の 1 画素の標本の数（MSAA。手すり・金網・電線の欠けとちらつきを抑える。1 で掛けない）。
+        msaaSamples = Int32,
         // 画面の仕上げ: ビネット・フィルムの粒・暗部を寄せる色と割合・底の持ち上げ・彩度。
         vignette = Float64,
         grain = Float64,
@@ -48,10 +51,11 @@ mod LookDoc {
 
     /// コード側の既定値（assets/night.look.json と同じ値から出発する）。
     pub def defaults(): Doc =
-        Doc.Doc({ version = 1, lightmapIntensity = 2.6, emissiveGain = 5.0, ambient = hx("#0c0e16"),
-                  skyColor = hx("#070a16"), horizonColor = hx("#2a2226"), horizonSpan = 0.45, fogColor = hx("#14151d"), fogNear = 6.0, fogFar = 60.0,
+        Doc.Doc({ version = 1, lightmapIntensity = 2.6, emissionIntensity = 55.0, ambient = hx("#0c0e16"),
+                  skyColor = hx("#030516"), horizonColor = hx("#3a2a2e"), skyCurve = 0.25, fogColor = hx("#14151d"), fogNear = 6.0, fogFar = 60.0,
                   exposure = -0.15, whitePoint = 4.0,
-                  bloomThreshold = 0.9, bloomKnee = 0.7, bloomStrength = 0.8, bloomRadius = 0.045, bloomTaps = 12, bloomScale = 0.5,
+                  bloomThreshold = 0.9, bloomKnee = 0.7, bloomStrength = 0.95, bloomRadius = 0.045, bloomTaps = 12, bloomScale = 0.5,
+                  msaaSamples = 4,
                   vignette = 0.42, grain = 0.02, gradeShadow = hx("#0a1226"), gradeShadowMix = 0.4, gradeLift = 0.008, gradeSaturation = -0.05 })
 
     pub def fromJson(text: String): Option[Doc] = DocJson.decodeObject(fromRoot, text)
@@ -68,14 +72,15 @@ mod LookDoc {
         let f = (key, fallback) -> JsonCodec.floatOr(key, fallback, root);
         let c = (key, fallback) -> colorOr(fallback, key, root);
         Doc.Doc({ version = JsonCodec.intOr("version", d#version, root),
-                  lightmapIntensity = f("lightmapIntensity", d#lightmapIntensity), emissiveGain = f("emissiveGain", d#emissiveGain),
+                  lightmapIntensity = f("lightmapIntensity", d#lightmapIntensity), emissionIntensity = f("emissionIntensity", d#emissionIntensity),
                   ambient = c("ambient", d#ambient), skyColor = c("skyColor", d#skyColor), horizonColor = c("horizonColor", d#horizonColor),
-                  horizonSpan = f("horizonSpan", d#horizonSpan), fogColor = c("fogColor", d#fogColor),
+                  skyCurve = f("skyCurve", d#skyCurve), fogColor = c("fogColor", d#fogColor),
                   fogNear = f("fogNear", d#fogNear), fogFar = f("fogFar", d#fogFar),
                   exposure = f("exposure", d#exposure), whitePoint = f("whitePoint", d#whitePoint),
                   bloomThreshold = f("bloomThreshold", d#bloomThreshold), bloomKnee = f("bloomKnee", d#bloomKnee),
                   bloomStrength = f("bloomStrength", d#bloomStrength), bloomRadius = f("bloomRadius", d#bloomRadius),
                   bloomTaps = JsonCodec.intOr("bloomTaps", d#bloomTaps, root), bloomScale = f("bloomScale", d#bloomScale),
+                  msaaSamples = JsonCodec.intOr("msaaSamples", d#msaaSamples, root),
                   vignette = f("vignette", d#vignette), grain = f("grain", d#grain),
                   gradeShadow = c("gradeShadow", d#gradeShadow), gradeShadowMix = f("gradeShadowMix", d#gradeShadowMix),
                   gradeLift = f("gradeLift", d#gradeLift), gradeSaturation = f("gradeSaturation", d#gradeSaturation) })

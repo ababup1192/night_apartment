@@ -3,9 +3,9 @@
   "title": "動く光と蛍光灯",
   "note": "flashlight=手の灯り（F で点け消し。innerConeDeg=縁で暗くなり始める角・小さいほど輪の縁がやわらかい）。flash=点きかけの管が瞬いた時の光と、Dip の管が消えた時に画面を沈める量。flies=点いた管のまわりの羽虫。lamps=外廊下の蛍光灯（name=号室の上・x/y/z=管の真ん中 m・state=on/dim/dying/dead・flicker=steady/dip/sputter・rate=1 秒あたりの瞬きの起きやすさ・seed=種）。",
   "flashlight": {
-    "color": "#ffe9c8",
-    "intensity": 0.8,
-    "range": 14.0,
+    "color": "#fff3e2",
+    "intensity": 1.1,
+    "range": 11.0,
     "coneDeg": 55.0,
     "innerConeDeg": 18.0,
     "forward": 0.25,
@@ -18,7 +18,7 @@
     "color": "#d8f0e0",
     "intensity": 1.6,
     "range": 5.0,
-    "tubeGlow": 2.4,
+    "tubeGlow": 0.5,
     "screenDip": 0.25,
     "dipRange": 6.0
   },

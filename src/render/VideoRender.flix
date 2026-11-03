@@ -10,7 +10,10 @@
 //           VIDEO_OUT（コマを書く debug/video/<名前>。既定 tour）・VIDEO_X264（GPU の道で mp4 を書く ffmpeg の旗）・
 //           FGE_GPU / FGE_VIDEO_PAINT / FFMPEG（VideoOut.settingsOf）
 mod VideoRender {
-    use fge::{App, AudioMixdown, DocJson, Flow, FontAtlas, HeadlessFont, JsonCodec, LoadProgress, PxSpriteAtlas, Render, Resources, VideoOut}
+    use fge::{
+        App, AudioMixdown, DocJson, Flow, FontAtlas, HeadlessFont, HeadlessLoad, JsonCodec,
+        PxSpriteAtlas, Render, Resources, VideoOut
+    }
 
     import java.io.{BufferedOutputStream, DataOutputStream, File, FileOutputStream}
     import java.nio.file.{Files, Paths}
@@ -40,7 +43,7 @@ mod VideoRender {
         let settings = VideoOut.settingsOf(env);
         let fps = Map.get("VIDEO_FPS", env) |> Option.flatMap(Int32.fromString)
             |> Option.filter(n -> n > 0 and Int32.modulo(playFps(), n) == 0) |> Option.getWithDefault(30);
-        let app = run { Game.app(LoadProgress.runNoop(Controls.loadDocs)) } with Fs.FileRead.runWithIO;
+        let app = run { Game.app(HeadlessLoad.handle(Controls.loadDocs)) } with Fs.FileRead.runWithIO;
         let fresh = run { App.freshWorld(app, SceneRender.design()) } with Fs.FileRead.runWithIO;
         let take = takeOf(env);
         discard (new File(take#outDir)).mkdirs();

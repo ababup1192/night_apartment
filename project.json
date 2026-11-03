@@ -730,6 +730,13 @@
         "role": "tuning"
       },
       {
+        "id": "inspect",
+        "pattern": "assets/inspect.kind.json",
+        "title": "E で調べた物の文言",
+        "schema": "assets/inspect.schema.json",
+        "role": "tuning"
+      },
+      {
         "id": "walk",
         "pattern": "assets/walk.kind.json",
         "title": "歩く手触り（速さ・目の高さ・体の大きさ）",

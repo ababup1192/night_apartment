@@ -3,11 +3,12 @@
 // Res は World を使わない（使う向きは World → Res だけ。lint/rules.flix の module-cycle）。
 mod Res {
 
-    use fge::{Mesh3d, PxShade, PxSpriteAtlas, PxSpriteDoc, Texture3d}
+    use fge::{CollisionWorld3d, Mesh3d, PxShade, PxSpriteAtlas, PxSpriteDoc, Texture3d}
 
     /// 起動時と描き出しが同じ形で読む Doc の束と、読み込んだ舞台（Controls.loadDocs）。
     pub type alias Docs = {
         sample = SampleDoc.Doc,
+        inspect = InspectDoc.Doc,
         keys = KeysDoc.Doc,
         theme = ThemeDoc.Doc,
         sprites = PxSpriteDoc.Doc,
@@ -27,6 +28,7 @@ mod Res {
     /// 描く元の束。
     pub type alias Res = {
         sample = SampleDoc.Doc,
+        inspect = InspectDoc.Doc,
         keys = KeysDoc.Doc,
         theme = ThemeDoc.Doc,
         // 仕上げ（shaded）を掛けた後のドット絵と、それを 1 枚にまとめたアトラス・鍵（羽虫の粒が読む）。
@@ -49,8 +51,10 @@ mod Res {
         placed = List[Stage.Group],
         // 場面の絵（全部の部品と住人の絵を 1 枚ずつ）。
         textures = List[Texture3d.Texture3d],
-        // 当たり判定の箱と体を重ねて描く形（調べる時の表示。体は足元が原点）。
-        colliderMesh = Mesh3d.Mesh3d,
+        // 歩く・扉を回す規則が読む当たり判定の集まり（常に効く箱・部屋にいる住人の箱・歩ける範囲の囲み）。
+        collision = CollisionWorld3d.CollisionWorld3d,
+        // 当たり判定の集まりの箱（歩ける範囲の囲みを含む）と体を重ねて描く形（調べる時の表示。平らな箱と傾いた箱で色を分ける。体は足元が原点）。
+        colliderMesh = List[Mesh3d.Mesh3d],
         bodyMesh = Mesh3d.Mesh3d
     }
 
@@ -58,11 +62,16 @@ mod Res {
     pub def build(docs: Docs): Res =
         let sprites = shaded(docs#theme, docs#sprites);
         let (baked, key) = bakedOf(docs#theme, sprites);
-        { sample = docs#sample, keys = docs#keys, theme = docs#theme, sprites = sprites, atlas = baked, atlasKey = key,
+        let collision = collisionOf(docs#walk, docs#stage, docs#residents);
+        { sample = docs#sample, inspect = docs#inspect, keys = docs#keys, theme = docs#theme, sprites = sprites, atlas = baked, atlasKey = key,
           walk = docs#walk, look = docs#look, lights = docs#lights, sound = docs#sound, tour = docs#tour, rooms = docs#rooms, stage = docs#stage,
           people = docs#people, residents = docs#residents, prefs = docs#prefs,
           placed = placedOf(docs#look, docs#lights, docs#stage), textures = texturesOf(docs#stage, docs#residents),
-          colliderMesh = ColliderMesh.boxesMesh(docs#stage#boxes), bodyMesh = ColliderMesh.bodyMesh(Walker.bodyOf(WalkDoc.rec(docs#walk))) }
+          collision = collision, colliderMesh = ColliderMesh.boxesMeshes(CollisionWorld3d.boxes(collision)), bodyMesh = ColliderMesh.bodyMesh(Walker.settingsOf(WalkDoc.rec(docs#walk))) }
+
+    /// 当たり判定の集まり: 常に効く箱・部屋にいる住人のカプセルの箱・歩ける範囲の囲み。
+    def collisionOf(walk: WalkDoc.Doc, stage: Stage.Loaded, residents: List[People.Person]): CollisionWorld3d.CollisionWorld3d =
+        Collider.worldOf(List.append(stage#boxes, People.residentBoxes(residents |> List.map(p -> p#entry))), WalkDoc.rec(walk))
 
     /// 点滅する管の、自分で光る絵の上の範囲（管の真ん中から長さの半分・太さの半分）。
     def masksOf(lights: LightsDoc.Doc): List[Stage.LampMask] =
@@ -77,7 +86,7 @@ mod Res {
         let glow = LightsDoc.rec(lights)#flash#tubeGlow;
         let masks = masksOf(lights);
         stage#parts |> List.flatMap(part ->
-            Stage.groupsOf(stage#rooms, part, Stage.placedOf(LookDoc.rec(look)#lightmapIntensity, (c#r * glow, c#g * glow, c#b * glow), masks, part)))
+            Stage.groupsOf(stage#rooms, part, Stage.placedOf(LookDoc.rec(look)#lightmapIntensity, LookDoc.rec(look)#emissionIntensity, (c#r * glow, c#g * glow, c#b * glow), masks, part)))
 
     /// 全部の部品と住人の絵（同じ絵は 1 枚に）。
     def texturesOf(stage: Stage.Loaded, residents: List[People.Person]): List[Texture3d.Texture3d] =
@@ -88,9 +97,9 @@ mod Res {
     pub def partCount(res: Res): Int32 = List.length(res#placed)
 
     /// 歩く・扉を回す規則が読む、動かない物の束。
-    /// 部屋にいる住人のカプセルの箱は、常に効く箱に足す。
     pub def playEnv(res: Res): PlayStep.Env =
-        { boxes = List.append(res#stage#boxes, People.residentBoxes(res#residents |> List.map(p -> p#entry))), rooms = res#stage#rooms, walk = WalkDoc.rec(res#walk), doors = RoomsDoc.rec(res#rooms)#door }
+        { world = res#collision, rooms = res#stage#rooms, walk = WalkDoc.rec(res#walk), doors = RoomsDoc.rec(res#rooms)#door,
+          inspect = InspectDoc.rec(res#inspect), things = res#stage#things }
 
     /// GPU に登録するアトラスの論理名（羽虫のビルボードがこの名前で待ち合わせる）。
     pub def atlasName(): String = "px"
@@ -112,9 +121,13 @@ mod Res {
 
     pub def withSample(sample: SampleDoc.Doc, res: Res): Res = { sample = sample | res }
 
+    pub def withInspect(inspect: InspectDoc.Doc, res: Res): Res = { inspect = inspect | res }
+
     pub def withKeys(keys: KeysDoc.Doc, res: Res): Res = { keys = keys | res }
 
-    pub def withWalk(walk: WalkDoc.Doc, res: Res): Res = { walk = walk, bodyMesh = ColliderMesh.bodyMesh(Walker.bodyOf(WalkDoc.rec(walk))) | res }
+    pub def withWalk(walk: WalkDoc.Doc, res: Res): Res =
+        let collision = collisionOf(walk, res#stage, res#residents);
+        { walk = walk, collision = collision, colliderMesh = ColliderMesh.boxesMeshes(CollisionWorld3d.boxes(collision)), bodyMesh = ColliderMesh.bodyMesh(Walker.settingsOf(WalkDoc.rec(walk))) | res }
 
     pub def withSound(sound: SoundDoc.Doc, res: Res): Res = { sound = sound | res }
 

@@ -14,7 +14,10 @@
 // （engine が目に近い Scene3d.maxPointLights() 本を選ぶ）。
 // 住人（骨つきの形）は lightmap を持たないので、動く光と環境光だけで照らされる（環境光は lightmap つきの舞台には足されない）。
 mod StageView {
-    use fge::{App, Color, Hash01, Mat4, Mesh3d, Num, PxSpriteAtlas, Render, Scene3d, ShaderDoc, SortingLayer, Texture3d, Vec2, Vec3, ZStack}
+    use fge::{
+        App, Color, Hash01, Mat4, Mesh3d, Num, PxSpriteAtlas, Render, Scene3d, ShaderDoc,
+        SortingLayer, Texture3d, Vec2, Vec3, ZStack
+    }
     use fge::ShaderDoc.{Field, Shade, Out}
     use ZOrder.Layer
 
@@ -40,36 +43,36 @@ mod StageView {
         textures = List[Texture3d.Texture3d],
         atlas = PxSpriteAtlas.Baked,
         // 当たり判定の表示（None なら描かない）: 箱の辺の形・今の角の扉の板と住人のカプセルの箱の辺の形・体の形・足元。
-        colliders = Option[{ boxes = Mesh3d.Mesh3d, doors = Mesh3d.Mesh3d, body = Mesh3d.Mesh3d, feet = Vec3.Vec3 }]
+        colliders = Option[{ boxes = List[Mesh3d.Mesh3d], doors = Mesh3d.Mesh3d, body = Mesh3d.Mesh3d, feet = Vec3.Vec3 }]
     }
 
     def p(x: Float64, y: Float64): Vec2.Vec2 = { x = x, y = y }
     def wd(): Float64 = World.width()
     def ht(): Float64 = World.height()
-    def rad(d: Float64): Float64 = d * Walker.pi() / 180.0
+    def rad(d: Float64): Float64 = d * Num.pi() / 180.0
 
     // ── 入口 ──
 
     /// 本編より先に描く Pass の計画（場面 → ブルーム → 後処理）。
     pub def passPlan(w: In): Render.PassPlan =
         let stack = SortingLayer.stack(App.pickCtx(p(wd(), ht())), Layer.Scene);
-        PostView.chain(w#look, stack(ZStack.of(ZStack.leaf(sky(w) :: Nil) :: ZStack.leaf(scene(w) :: Nil) :: Nil)), screenDip(w), w#t)
+        PostView.chain(w#look, stack(ZStack.leaf(scene(w) :: Nil)), screenDip(w), w#t)
 
     /// 本編の木: トーンマップ済みの後処理の Pass を FXAA でならした面 1 枚。
     pub def frameTree(_w: In): ZStack.Tree[Layer, World.Press] = ZStack.leaf(PostView.fxaaFill() :: Nil)
 
     // ── 光 ──
 
-    /// 自分で光る絵の Param: 倍率と、点滅する管ごとの明るさ・瞬いた光。
+    /// 自分で光る絵の Param: 点滅する管ごとの明るさ・瞬いた光。
     def emissionParams(w: In): Map[String, Float64] =
         Flicker.flickering(w#lights#lamps) |> List.foldLeft((acc, e) -> {
             let (i, lamp) = e;
             let g = Flicker.glowOf(w#t, lamp);
             acc |> Map.insert(Flicker.levelParam(i), g#level) |> Map.insert(Flicker.glowParam(i), g#flash)
-        }, Map#{ Stage.gainParam() => w#look#emissiveGain })
+        }, Map.empty())
 
     def forwardOf(w: In): Vec3.Vec3 =
-        Vec3.v3(Vec2.sin(w#yaw) * Vec2.cos(w#pitch), 0.0 - Vec2.sin(w#pitch), Vec2.cos(w#yaw) * Vec2.cos(w#pitch))
+        Vec3.v3(Num.sin(w#yaw) * Num.cos(w#pitch), 0.0 - Num.sin(w#pitch), Num.cos(w#yaw) * Num.cos(w#pitch))
 
     /// 手の灯り: 目の少し前・下・右から、見ている向きへ。
     def flashlight(w: In): List[Scene3d.SpotLight] =
@@ -77,7 +80,7 @@ mod StageView {
         else {
             let f = w#lights#flashlight;
             let fwd = forwardOf(w);
-            let right = Vec3.v3(Vec2.cos(w#yaw), 0.0, 0.0 - Vec2.sin(w#yaw));
+            let right = Vec3.v3(Num.cos(w#yaw), 0.0, 0.0 - Num.sin(w#yaw));
             let at = Vec3.add(w#eye, Vec3.add(Vec3.mul(fwd, f#forward), Vec3.add(Vec3.mul(right, f#right), Vec3.v3(0.0, 0.0 - f#down, 0.0))));
             { color = f#color, intensity = f#intensity, range = f#range, innerFovY = Some(rad(f#innerConeDeg)),
               shadow = if (f#shadow) Some({ mapSize = 1024, bias = 0.0015, pcfRadius = 1, strength = 0.85 }) else None
@@ -137,8 +140,8 @@ mod StageView {
                         let speed = fl#speed * (1.5 + 2.5 * Hash01.at(seed, 32)) / Float64.max(0.15, r);
                         let a = Hash01.at(seed, 33) * 6.283 + w#t * speed;
                         let b = Hash01.at(seed, 34) * 6.283 + w#t * speed * 0.73;
-                        let jitter = 0.03 * Vec2.sin(w#t * 23.0 + Int32.toFloat64(seed));
-                        let at = Vec3.add(center, Vec3.v3(Vec2.cos(a) * r * 1.4, Vec2.sin(b) * r * 0.45 - 0.04 + jitter, Vec2.sin(a) * r * 0.7));
+                        let jitter = 0.03 * Num.sin(w#t * 23.0 + Int32.toFloat64(seed));
+                        let at = Vec3.add(center, Vec3.v3(Num.cos(a) * r * 1.4, Num.sin(b) * r * 0.45 - 0.04 + jitter, Num.sin(a) * r * 0.7));
                         Scene3d.billboard(Res.atlasName(), rect, at, p(fl#size, fl#size))
                             |> Scene3d.withAnchor(p(0.5, 0.5)) |> Scene3d.withBillboardTint(fl#color) |> Scene3d.unlit
                     })
@@ -155,8 +158,8 @@ mod StageView {
     def colliderInstances(w: In): List[Scene3d.Instance3d] = match w#colliders {
         case None => Nil
         case Some(c) =>
-            Scene3d.meshInstance(c#boxes, Mat4.identity()) |> Scene3d.withMaterial(glowMaterial(Color.rgb(0.1, 0.5, 0.2)))
-                :: (Scene3d.meshInstance(c#doors, Mat4.identity()) |> Scene3d.withMaterial(glowMaterial(Color.rgb(0.1, 0.5, 0.2))))
+            let line = (m: Mesh3d.Mesh3d) -> Scene3d.meshInstance(m, Mat4.identity()) |> Scene3d.withMaterial(glowMaterial(Color.rgb(0.1, 0.5, 0.2)));
+            List.map(line, c#boxes) ::: (Scene3d.meshInstance(c#doors, Mat4.identity()) |> Scene3d.withMaterial(glowMaterial(Color.rgb(0.1, 0.5, 0.2))))
                 :: (Scene3d.meshInstance(c#body, Mat4.translate(c#feet)) |> Scene3d.withMaterial(glowMaterial(Color.rgb(0.6, 0.1, 0.1))))
                 :: Nil
     }
@@ -165,19 +168,9 @@ mod StageView {
 
     // ── 空 ──
 
-    /// 空の面: 天頂の色から地平の色へ、縦になめらかに移る（地平の位置は見上げる角と画角から毎コマ Param で渡す）。
-    /// 3D の場面は背景を塗らずにこの上へ描く。
-    def sky(w: In): Render.PlacedItem =
-        let lk = w#look;
-        let v = Field.Uv({ axis = ShaderDoc.Axis.V });
-        let t = Field.Smoothstep({ lo = 0.0, hi = 1.0, of = Field.Bin({ op = ShaderDoc.BinOp.Div,
-                    a = Field.Bin({ op = ShaderDoc.BinOp.Sub, a = v, b = Field.Param({ name = "h0" }) }), b = Field.Const(Float64.max(0.01, lk#horizonSpan)) }) });
-        let spec = { name = "night_sky", cycleRate = 0.0, bindings = Nil,
-                     out = Out.Fill({ shade = Shade.Ramp({ lo = lk#skyColor, hi = lk#horizonColor, field = t }), alpha = Field.Const(1.0) }) };
-        let half = rad(w#fovY) / 2.0;
-        let horizon = 0.5 - 0.5 * (Vec2.sin(w#pitch) / Vec2.cos(w#pitch)) / (Vec2.sin(half) / Vec2.cos(half));
-        Render.shaderFill(spec, { position = Vec2.zero(), size = p(wd(), ht()) }, w#t, 0)
-            |> Render.withShaderParams(Map#{ "h0" => horizon - lk#horizonSpan })
+    /// 3D の場面の空: 天頂の色から地平の色へ（地平より下は霧の色 — 遠くの地面の霧と空の下側を同じ色にする）。外廊下の外と部屋の窓の外に見える。
+    def skyOf(lk: LookDoc.Rec): Scene3d.Sky3d =
+        Scene3d.gradientSky(lk#skyColor, lk#horizonColor, lk#fogColor) |> Scene3d.withSkyCurve(lk#skyCurve)
 
     /// 置く物: いつも描く部品・描く部屋の部品・今の角へ回した玄関の扉。
     def stageInstances(w: In, params: Map[String, Float64]): List[Scene3d.Instance3d] =
@@ -200,5 +193,5 @@ mod StageView {
                                       environment = { ambient = lk#ambient, hemisphere = 0.0, toonSteps = 0,
                                                       fog = Some({ color = lk#fogColor, near = lk#fogNear, far = lk#fogFar }),
                                                       background = None },
-                                      time = w#t | base })
+                                      time = w#t, sky = Some(skyOf(lk)) | base })
 }

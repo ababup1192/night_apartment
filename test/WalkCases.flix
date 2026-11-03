@@ -1,5 +1,5 @@
 // 壁と手すりへ向かって歩く場合を、決まった種の乱数でたくさん作る（毎回同じ場合の列）。
-// 作るのは場合の入力だけで、判定は Collider.deepestOverlap と、建物の中に入っていないかの 2 つ（TestWalkProperty）。
+// 作るのは場合の入力だけで、判定は Walker.overlapDepth と、建物の中に入っていないかの 2 つ（TestWalkProperty）。
 mod WalkCases {
     use fge::Hash01
 

@@ -3,7 +3,10 @@
 //       make render SHOT=wide → debug/wide.png（1 枚だけ）
 // 3D の場面と後処理の Pass は SoftRaster が CPU で塗る（実機の GPU と同じ式。GPU の絵は make stills）。
 mod SceneRender {
-    use fge::{App, Clock, Color, FontAtlas, GameEngine, HeadlessFont, HeadlessRender, LoadProgress, PxSpriteAtlas, Render, Vec2}
+    use fge::{
+        App, Clock, Color, FontAtlas, GameEngine, HeadlessFont, HeadlessLoad, HeadlessRender,
+        PxSpriteAtlas, Render, Vec2
+    }
 
     import java.io.File
 
@@ -18,7 +21,7 @@ mod SceneRender {
 
     /// 描く元（実機の起動と同じ Controls.loadDocs から組む）。
     def loadRes(): Res.Res \ IO =
-        Res.build(run { LoadProgress.runNoop(Controls.loadDocs) } with Fs.FileRead.runWithIO)
+        Res.build(run { HeadlessLoad.handle(Controls.loadDocs) } with Fs.FileRead.runWithIO)
 
     /// 生成するときの遊びの時計の時刻（秒）。固定値なので、点滅も羽虫もこの時刻だけで決まる。
     def renderClock(): Clock.Clock[PlayClock.Play] = Clock.startAt(3.0)
@@ -43,22 +46,32 @@ mod SceneRender {
         case "vending"  => Some({ x = -0.75, y = 0.0, z = 8.9, yaw = 211.9, pitch = 2.0, fovY = 35.0 })
         case "corridor" => Some({ x = -16.6, y = 3.1, z = 0.7, yaw = 91.5, pitch = -6.0, fovY = 53.7 })
         case "stairs"   => Some({ x = -17.8, y = 0.3, z = 0.7, yaw = 199.2, pitch = -22.0, fovY = 53.7 })
+        case "inspect"  => Some({ x = -2.3, y = 0.0, z = 7.6, yaw = 195.0, pitch = 8.0, fovY = 58.0 })
         case _          => None
     }
 
     /// 描き出せる場面の名前（この並びが source of truth。Makefile の SHOTS と assets/*.scenes.json もそろえる）。
-    def shotNames(): List[String] = "wide" :: "vending" :: "corridor" :: "stairs" :: "loading" :: "quit" :: "volume" :: Nil
+    def shotNames(): List[String] = "wide" :: "vending" :: "corridor" :: "stairs" :: "inspect" :: "loading" :: "quit" :: "volume" :: Nil
 
     def sceneOf(res: Res.Res, name: String, w0: World.World): Option[World.World] =
         let at = (s: Shot) -> World.placeWalker(res, { x = s#x, y = s#y, z = s#z }, s#yaw, s#pitch, w0);
         match name {
             case "loading" => Some({ screen = World.loading(res)#screen | w0 })
+            case "inspect" => shotOf(name) |> Option.map(at) |> Option.map(World.step(res, { drive = Walker.idle(), actions = Set#{ World.Action.Interact } }))
+                                  |> Option.map(World.stepTimes(res, { drive = Walker.idle(), actions = Set.empty() }, 1.0 / 60.0, captionFrames(res)))
             case "quit"    => shotOf("vending") |> Option.map(at) |> Option.map(World.askQuit)
             case "volume"  => shotOf("corridor") |> Option.map(at) |> Option.map(World.toggleVolume)
                                   |> Option.map(World.setVolume(AudioPrefs.Channel.Effects, 0.0))
                                   |> Option.map(World.setVolume(AudioPrefs.Channel.Ambience, 0.45))
             case _         => shotOf(name) |> Option.map(at)
         }
+
+    /// 調べた文言が出そろってから、消え始める前のコマ（60 コマ/秒）: 一番長い文言を出し切る秒 + 0.3 秒（出しておく秒の 6 割まで）。
+    def captionFrames(res: Res.Res): Int32 =
+        let doc = InspectDoc.rec(res#inspect);
+        let longest = doc#things |> List.map(t -> String.length(t#text)) |> List.foldLeft(Int32.max, 0);
+        let seconds = Float64.min(doc#showSeconds * 0.6, Int32.toFloat64(longest) / Float64.max(1.0, doc#charsPerSecond) + 0.3);
+        Float64.tryToInt32(Float64.ceil(seconds * 60.0)) |> Option.getWithDefault(1)
 
     pub def allShots(): List[String] \ IO = shotsInto("gallery", _ -> true)
 

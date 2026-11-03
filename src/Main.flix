@@ -2,10 +2,10 @@
 // ここで足すのは main だけが知る物（GPU のアトラス・Pass の計画・終了の確認・注釈・デバッグの印）。
 // 起動の読み込み（Doc と舞台の glb・絵）は LoadProgress で区切り、起動画面のバーを進める。
 
-use fge::{App, GameEngine, LwjglLayer, Resources}
+use fge::{App, LwjglLayer, Resources}
 
 def main(): Unit \ IO =
-    if (GameEngine.ensureMainThread()) ()
+    if (LwjglLayer.ensureMainThread()) ()
     else {
         run {
             App.loadAndLaunch(() -> Game.appWithLoading(Controls.loadDocs())
@@ -23,6 +23,7 @@ def main(): Unit \ IO =
                 |> App.addOutput(Resources.liftOutput({ keyOf = World.diagnosticsText, write = writeDiagnostics, onJump = App.OnJump.Write }))
                 // 遊ぶ人が変えた音量を saves/audio.json に残す（次の起動で Controls.loadDocs が読み戻す）。
                 |> App.addOutput(Resources.liftOutput({ keyOf = w -> AudioPrefs.toText(World.prefsOf(w)), write = w -> AudioPrefs.save(World.prefsOf(w)), onJump = App.OnJump.Skip }))
+                |> App.onRenderRequest(SceneRender.allShots)
                 |> App.withDebug(App.debugFromEnv()))
         } with LwjglLayer.withProject(".")
           with Fs.FileRead.runWithIO

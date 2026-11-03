@@ -18,7 +18,8 @@
       "assets/"
     ],
     "allowedSubstrings": [
-      "/assets/"
+      "/assets/",
+      "/testdata/"
     ],
     "allowedSuffixes": [
       "/reference/title.png"
@@ -117,6 +118,23 @@
         ],
         "prefixes": [
           "engine/src/",
+          "engine_world/src/",
+          "engine_tools/src/"
+        ]
+      }
+    },
+    {
+      "id": "max-lines",
+      "sub": "max-lines",
+      "flags": [],
+      "pass": "matched",
+      "when": {
+        "suffixes": [
+          ".flix"
+        ],
+        "prefixes": [
+          "engine/src/",
+          "render_gl/src/",
           "engine_world/src/",
           "engine_tools/src/"
         ]

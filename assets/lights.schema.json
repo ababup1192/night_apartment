@@ -10,17 +10,17 @@
         "color": {
           "type": "color",
           "label": "色",
-          "default": "#ffe9c8"
+          "default": "#fff3e2"
         },
         "intensity": {
           "type": "float",
           "label": "強さ",
-          "default": 1.2
+          "default": 1.1
         },
         "range": {
           "type": "float",
           "label": "届く距離（m）",
-          "default": 14.0
+          "default": 11.0
         },
         "coneDeg": {
           "type": "float",
@@ -81,8 +81,8 @@
         },
         "tubeGlow": {
           "type": "float",
-          "label": "瞬いた管の発光",
-          "default": 2.4
+          "label": "瞬いた管の発光（管の絵に足す量・発光の倍率が掛かる）",
+          "default": 0.5
         },
         "screenDip": {
           "type": "float",

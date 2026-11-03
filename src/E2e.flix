@@ -2,20 +2,20 @@
 // flow の書き方は engine の engine_world/src/Flow.flix 冒頭。名前の一覧は流すたびに e2e/vocab.json へ書き出す。
 //   make flow FLOW=e2e/walk.flow   画面なしで最後まで流す
 mod E2e {
-    use fge::{App, Flow, InputMap, LoadProgress, Resources}
+    use fge::{App, Flow, HeadlessLoad, InputMap, Resources}
     use fge::GameEngine.Key
 
     /// make flow（bin/fge flow run|check）が流す入口。
     pub def play(): Unit \ IO = App.Headless.exitWith(playJob(App.Headless.requestFromProcess()))
 
     def playJob(req: App.Headless.Request): Int32 \ IO =
-        run { Flow.Cli.mainOf(Game.app(LoadProgress.runNoop(Controls.loadDocs)), App.Headless.envOf(req)) } with Fs.FileRead.runWithIO with Fs.FileWrite.runWithIO
+        run { Flow.Cli.mainOf(Game.app(HeadlessLoad.handle(Controls.loadDocs)), App.Headless.envOf(req)) } with Fs.FileRead.runWithIO with Fs.FileWrite.runWithIO
 
     /// 語彙 e2e/vocab.json だけを書く入口（bin/headless-run が jar を作った時に流す・make flow-vocab）。
     pub def vocab(): Unit \ IO = App.Headless.exitWith(vocabJob(App.Headless.requestFromProcess()))
 
     def vocabJob(req: App.Headless.Request): Int32 \ IO =
-        run { Flow.Cli.vocabMainOf(Game.app(LoadProgress.runNoop(Controls.loadDocs)), App.Headless.envOf(req)) } with Fs.FileRead.runWithIO with Fs.FileWrite.runWithIO
+        run { Flow.Cli.vocabMainOf(Game.app(HeadlessLoad.handle(Controls.loadDocs)), App.Headless.envOf(req)) } with Fs.FileRead.runWithIO with Fs.FileWrite.runWithIO
 
     /// 常駐（App.Headless.serveJobs）が /run で流す E2e の入口の束。
     pub def jobs(): List[App.Headless.Job] =
@@ -57,5 +57,5 @@ mod E2e {
     pub def fingerprint(_res: Res.Res, w: World.World): String =
         let b = World.walkerOf(w);
         let cm = (v: Float64) -> Int32.toString(Float64.tryToInt32(Float64.round(v * 100.0)) |> Option.getWithDefault(0));
-        "at=${cm(b#x)},${cm(b#feet)},${cm(b#z)}|${b#footing}|quit=${w#quit}"
+        "at=${cm(b#x)},${cm(b#feet)},${cm(b#z)}|${Walker.footingName(b)}|quit=${w#quit}"
 }

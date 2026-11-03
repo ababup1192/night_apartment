@@ -29,7 +29,7 @@ mod Controls {
 
     /// このコマに押した操作（割り当てのキーのどれかを押した物）。
     def actionsOf(pressed: List[GameEngine.Key] -> Bool, k: KeysDoc.Rec): Set[World.Action] =
-        ((World.Action.ToggleLight, k#light) :: (World.Action.ToggleColliders, k#colliders) :: (World.Action.UseDoor, k#door) :: Nil)
+        ((World.Action.ToggleLight, k#light) :: (World.Action.ToggleColliders, k#colliders) :: (World.Action.Interact, k#door) :: Nil)
             |> List.filter(e -> pressed(snd(e))) |> List.map(fst) |> List.toSet
 
     /// 毎フレームのシステム。終了の確認の窓が出ている間は Enter で終わる・Esc で戻る（マウスは tapAt）。
@@ -99,7 +99,7 @@ mod Controls {
         let stage = StageDoc.load(StageDoc.path());
         let people = PeopleDoc.load(PeopleDoc.path());
         let limits = { baseColor = PeopleDoc.rec(people)#textureMax#baseColor, normal = PeopleDoc.rec(people)#textureMax#normal };
-        { sample = SampleDoc.load(SampleDoc.path()), keys = KeysDoc.load(KeysDoc.path()),
+        { sample = SampleDoc.load(SampleDoc.path()), inspect = InspectDoc.load(InspectDoc.path()), keys = KeysDoc.load(KeysDoc.path()),
           theme = ThemeDoc.load(ThemeDoc.path()), sprites = PxSpriteDoc.load(World.spritePath()),
           walk = WalkDoc.load(WalkDoc.path()), look = LookDoc.load(LookDoc.path()), lights = LightsDoc.load(LightsDoc.path()),
           sound = SoundDoc.load(SoundDoc.path()), tour = TourDoc.load(TourDoc.path()), rooms = RoomsDoc.load(RoomsDoc.path()),
@@ -107,6 +107,8 @@ mod Controls {
           prefs = AudioPrefs.load(AudioPrefs.path()) }
 
     def reloadSample(res: Res.Res): Res.Res \ Fs.FileRead = Res.withSample(SampleDoc.load(SampleDoc.path()), res)
+
+    def reloadInspect(res: Res.Res): Res.Res \ Fs.FileRead = Res.withInspect(InspectDoc.load(InspectDoc.path()), res)
 
     def reloadKeys(res: Res.Res): Res.Res \ Fs.FileRead = Res.withKeys(KeysDoc.load(KeysDoc.path()), res)
 
@@ -134,6 +136,7 @@ mod Controls {
     pub def docTable(): List[DocTable.Entry[Resources.With[Res.Res, World.World]]] =
         let unchanged = (_, w) -> w;
         Resources.reloadRow("sample", SampleDoc.path(), reloadSample, unchanged)
+            :: Resources.reloadRow("inspect", InspectDoc.path(), reloadInspect, unchanged)
             :: Resources.reloadRow("keys", KeysDoc.path(), reloadKeys, unchanged)
             :: Resources.reloadRow("theme", ThemeDoc.path(), reloadTheme, unchanged)
             :: Resources.reloadRow("sprite", World.spritePath(), reloadSprites, unchanged)

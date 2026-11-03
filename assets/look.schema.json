@@ -10,12 +10,12 @@
       "default": 2.6,
       "group": "焼き込みと発光"
     },
-    "emissiveGain": {
+    "emissionIntensity": {
       "kind": "field",
       "type": "float",
-      "label": "発光の倍率",
+      "label": "発光の倍率（線形）",
       "order": 2,
-      "default": 5.0,
+      "default": 55.0,
       "group": "焼き込みと発光"
     },
     "ambient": {
@@ -31,7 +31,7 @@
       "type": "color",
       "label": "天頂の色",
       "order": 4,
-      "default": "#070a16",
+      "default": "#030516",
       "group": "空と霧"
     },
     "horizonColor": {
@@ -39,15 +39,15 @@
       "type": "color",
       "label": "地平の色",
       "order": 5,
-      "default": "#2a2226",
+      "default": "#3a2a2e",
       "group": "空と霧"
     },
-    "horizonSpan": {
+    "skyCurve": {
       "kind": "field",
       "type": "float",
-      "label": "色が移る幅（画面の割合）",
+      "label": "地平から天頂へ色が寄る曲がり（小さいほど地平の色の幅が狭い）",
       "order": 6,
-      "default": 0.45,
+      "default": 0.25,
       "group": "空と霧"
     },
     "fogColor": {
@@ -111,7 +111,7 @@
       "type": "float",
       "label": "強さ",
       "order": 14,
-      "default": 0.8,
+      "default": 0.95,
       "group": "ブルーム"
     },
     "bloomRadius": {
@@ -137,6 +137,14 @@
       "order": 17,
       "default": 0.5,
       "group": "ブルーム"
+    },
+    "msaaSamples": {
+      "kind": "field",
+      "type": "int",
+      "label": "場面の MSAA の標本の数（1・2・4・8。1 で掛けない）",
+      "order": 24,
+      "default": 4,
+      "group": "画面の仕上げ"
     },
     "vignette": {
       "kind": "field",

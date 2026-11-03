@@ -1,22 +1,22 @@
 // 2 階の部屋のテスト: manifest の rooms の読み方・部屋を描くか・部屋の灯りの選び方。
 // 部屋の寸法は書き出しの manifest.json（間口 3.4 m・202 は glTF の x 3.4..6.8）、描く距離は RoomsDoc の既定から。
 mod TestRooms {
-    use fge::{Color, Scene3d, Vec3}
+    use fge::{Color, Model3d, Num, Scene3d, Vec3}
 
     def draw(): RoomsDoc.Draw = RoomsDoc.rec(RoomsDoc.defaults())#draw
 
     def lightDoc(): RoomsDoc.Light = RoomsDoc.rec(RoomsDoc.defaults())#light
 
-    def pi(): Float64 = Walker.pi()
+    def pi(): Float64 = Num.pi()
 
     // ── manifest の rooms ──
 
     /// 部屋は 202〜205 の 4 つで、どれも扉の板の箱が見つかり、その 4 つの箱は常に効く箱から外れる。
     @Test
     def testFourRoomsWithDoorLeaves(): Unit \ {Assert, Fs.FileRead} =
-        let (rooms, statics) = TestKit.layout();
+        let rooms = fst(TestKit.layout());
         Assert.assertEq(expected = ("202" :: "203" :: "204" :: "205" :: Nil, List.length(TestKit.boxes()) - 4),
-            (rooms |> List.map(r -> r#id), List.length(statics)))
+            (rooms |> List.map(r -> r#id), List.length(TestKit.statics())))
 
     /// 部屋の囲みは engine の座標へ x を反転して写る（202 は glTF の x 3.4..6.8 → -6.8..-3.4）。
     @Test
@@ -27,8 +27,8 @@ mod TestRooms {
     /// 壊れた manifest は部屋 0 で、箱はそのまま全部残る。
     @Test
     def testBrokenManifestHasNoRooms(): Unit \ {Assert, Fs.FileRead} =
-        let (rooms, statics) = Rooms.layoutOf("{ not json", TestKit.boxes());
-        Assert.assertEq(expected = (0, List.length(TestKit.boxes())), (List.length(rooms), List.length(statics)))
+        let (rooms, statics) = Rooms.layoutOf("{ not json", TestKit.model());
+        Assert.assertEq(expected = (0, List.length(Model3d.nodesWithPrefix(Collider.prefix(), TestKit.model()))), (List.length(rooms), List.length(statics)))
 
     // ── 部屋を描くか ──
 

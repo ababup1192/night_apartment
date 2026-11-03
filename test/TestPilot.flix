@@ -10,7 +10,7 @@ mod TestPilot {
     def testTourWalksToTheEnd(): Unit \ {Assert, Fs.FileRead} =
         let env = TestKit.env();
         let t = tour();
-        let start = { walker = TestKit.standAt(env#boxes, t#startX, 0.0, t#startZ, t#startYaw), doors = Doors.initialAll(env#rooms), light = PlayStep.Flashlight.On };
+        let start = { walker = TestKit.standAt(env#world, t#startX, 0.0, t#startZ, t#startYaw), doors = Doors.initialAll(env#rooms), light = PlayStep.Flashlight.On, seen = None };
         let (body, state) = Pilot.simulate(env, t, TestKit.frame(), 18000, Pilot.start(), start);
         Assert.assertEq(expected = (true, 0, 310), (Pilot.isDone(t, state), Pilot.missedOf(state), TestKit.feetCm(body#walker)))
 
@@ -21,7 +21,7 @@ mod TestPilot {
         let env = TestKit.env();
         let t = tour();
         let s0 = Pilot.startAfter(t, "look_down") |> Option.getWithDefault(Pilot.start());
-        let start = { walker = TestKit.standAt(env#boxes, -11.85, 3.1, 0.66, 90.0), doors = Doors.initialAll(env#rooms), light = PlayStep.Flashlight.On };
+        let start = { walker = TestKit.standAt(env#world, -11.85, 3.1, 0.66, 90.0), doors = Doors.initialAll(env#rooms), light = PlayStep.Flashlight.On, seen = None };
         let (bodies, state) = Pilot.trace(env, t, TestKit.frame(), 12000, s0, start);
         let visited = bodies |> List.filterMap(b -> Rooms.roomAt(env#rooms, Vec3.v3(b#walker#x, b#walker#feet, b#walker#z))) |> List.distinct |> List.sort;
         let closed = List.last(bodies) |> Option.map(b -> Map.forAll((_, s) -> Doors.isClosed(s), b#doors)) |> Option.getWithDefault(false);

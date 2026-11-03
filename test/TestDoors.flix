@@ -1,11 +1,11 @@
 // 玄関の扉のテスト: 開け閉めの進み・端で止まる・押した時の向き・体に当たる所で止まる・閉じた扉は通れず開いた扉は通れる。
 // 扉は書き出しの 202 の扉（蝶番 engine の (-3.675, 3.1, 0.02)・閉じた板の箱の真ん中 (-4.1, 4.1, 0.02)）。速さと開け切る角は RoomsDoc の既定から。
 mod TestDoors {
-    use fge::{Mat4, Vec3}
+    use fge::{CharacterBody3d, CollisionWorld3d, Mat4, Vec3}
 
     def doc(): RoomsDoc.Door = TestKit.doorDoc()
 
-    def body(): Collider.Body = Walker.bodyOf(TestKit.walk())
+    def body(): CharacterBody3d.Settings = Walker.settingsOf(TestKit.walk())
 
     /// 扉から遠い足元（体に当たらない）。
     def away(): Vec3.Vec3 = Vec3.v3(0.0, 0.0, 10.0)
@@ -82,13 +82,13 @@ mod TestDoors {
         let feet = Vec3.v3(-4.1, 3.1, 0.6);
         let s = Doors.stepTimes(doc(), door, body(), feet, dt(), 120, Doors.toggle(Doors.openTo(doc(), door), closed()));
         Assert.assertEq(expected = (Doors.Motion.Opening, true),
-            (s#motion, Collider.deepestOverlap(Doors.leafBox(door, s#angle) :: Nil, body(), feet#x, feet#y, feet#z) <= 0.002))
+            (s#motion, CharacterBody3d.overlapDepth(CollisionWorld3d.empty(), Doors.leafBox(door, s#angle) :: Nil, body(), CharacterBody3d.bodyAt(feet)) <= 0.002))
 
     /// 扉の前で E を押して 2 秒じっとしていても、体は動かされない（回る扉は体を押しのけない）。
     @Test
     def testPressDoesNotMoveBody(): Unit \ {Assert, Fs.FileRead} =
         let env = TestKit.env();
-        let start = { walker = TestKit.standAt(env#boxes, -4.1, 3.1, 0.6, 180.0), doors = Doors.initialAll(env#rooms), light = PlayStep.Flashlight.Off };
+        let start = { walker = TestKit.standAt(env#world, -4.1, 3.1, 0.6, 180.0), doors = Doors.initialAll(env#rooms), light = PlayStep.Flashlight.Off, seen = None };
         let pressed = PlayStep.step(env, { press = true | PlayStep.idle() }, TestKit.frame(), start);
         let after = PlayStep.simulate(env, PlayStep.idle(), TestKit.frame(), 120, pressed);
         Assert.assertEq(expected = (start#walker#x, start#walker#z, Doors.Motion.Opening),
@@ -98,7 +98,7 @@ mod TestDoors {
     @Test
     def testClosedDoorBlocks(): Unit \ {Assert, Fs.FileRead} =
         let env = TestKit.env();
-        let start = { walker = TestKit.standAt(env#boxes, -4.1, 3.1, 0.6, 180.0), doors = Doors.initialAll(env#rooms), light = PlayStep.Flashlight.Off };
+        let start = { walker = TestKit.standAt(env#world, -4.1, 3.1, 0.6, 180.0), doors = Doors.initialAll(env#rooms), light = PlayStep.Flashlight.Off, seen = None };
         let after = PlayStep.simulate(env, { drive = TestKit.forward(false) | PlayStep.idle() }, TestKit.frame(), 60, start);
         Assert.assertEq(expected = true, after#walker#z > 0.0)
 
@@ -107,7 +107,7 @@ mod TestDoors {
     def testOpenDoorLetsYouIn(): Unit \ {Assert, Fs.FileRead} =
         let env = TestKit.env();
         let open = Map.insert("202", { angle = Doors.openTo(env#doors, TestKit.room("202")#door), motion = Doors.Motion.Still }, Doors.initialAll(env#rooms));
-        let start = { walker = TestKit.standAt(env#boxes, -4.1, 3.1, 0.6, 180.0), doors = open, light = PlayStep.Flashlight.Off };
+        let start = { walker = TestKit.standAt(env#world, -4.1, 3.1, 0.6, 180.0), doors = open, light = PlayStep.Flashlight.Off, seen = None };
         let after = PlayStep.simulate(env, { drive = TestKit.forward(false) | PlayStep.idle() }, TestKit.frame(), 60, start);
         Assert.assertEq(expected = true, after#walker#z < -0.5)
 

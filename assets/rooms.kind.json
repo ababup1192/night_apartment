@@ -16,9 +16,9 @@
     "ajarDeg": 1.0
   },
   "light": {
-    "gain": 0.02,
-    "minIntensity": 0.04,
-    "maxIntensity": 0.35,
+    "gain": 0.026,
+    "minIntensity": 0.05,
+    "maxIntensity": 0.45,
     "rangeScale": 1.0,
     "tvIntensity": 0.6,
     "tvMin": 0.2,

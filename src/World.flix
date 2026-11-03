@@ -8,13 +8,13 @@
 // 歩く中身（Session）は両方の場面が持つ（幕の裏で描く場面も、歩き始める所から見る）。
 mod World {
 
-    use fge::{Clock, FrameDiagnostics}
+    use fge::{Clock, CollisionShape3d, FrameDiagnostics, Num}
 
     /// 押した瞬間に効く操作（同じコマに幾つでも重なる）。
     pub enum Action with Eq, Order, ToString {
         case ToggleLight       // 手の灯りを点け消しする
         case ToggleColliders   // 当たり判定の表示を切り替える
-        case UseDoor           // 向いている玄関の扉を開け閉めする（E）
+        case Interact          // 見ている玄関の扉を開け閉めする・見ている物を調べる（E）
     }
 
     /// このフレームの入力: 歩き方（Walker.Drive）と、このコマに押した操作。
@@ -84,7 +84,9 @@ mod World {
         diagnostics = Option[FrameDiagnostics.Diagnostics],
         // 遊ぶ人が決めた音量と、それを変える窓。
         audio = AudioPrefs.Prefs,
-        volume = AudioPrefs.Menu
+        volume = AudioPrefs.Menu,
+        // 最後に E で調べた物の文言と時刻（出しておく秒は InspectDoc）。
+        seen = Option[Inspect.Seen]
     }
 
     /// 歩いている間の中身。作るのは World の中だけ。読む口は sessionOf・書く口は mapSession。
@@ -121,13 +123,13 @@ mod World {
     /// 歩き始める体（WalkDoc の start に立ち、足元を床に合わせる）。
     def startWalker(res: Res.Res): Walker.Walker =
         let walk = WalkDoc.rec(res#walk);
-        Walker.settle(res#stage#boxes, walk, Walker.standing(walk#start#x, 0.0, walk#start#z, walk#start#yaw))
+        Walker.settle(res#collision, walk, Walker.standing(walk#start#x, 0.0, walk#start#z, walk#start#yaw))
 
     def freshSession(res: Res.Res): Session =
         SessionOf.SessionOf({ walker = startWalker(res), doors = Doors.initialAll(res#stage#rooms), light = PlayStep.flashlightOf(LightsDoc.rec(res#lights)#flashlight#startOn),
                               colliders = ColliderView.Hidden, fov = None, pilot = None,
                               stairs = Stairs.Waiting, look = Look.Released, diagnosticsView = DiagnosticsView.Hidden, diagnostics = None,
-                              audio = res#prefs, volume = AudioPrefs.closedMenu() })
+                              audio = res#prefs, volume = AudioPrefs.closedMenu(), seen = None })
 
     /// 遊びから始める状態（描き出し・テスト・flow）。
     pub def initial(res: Res.Res): World =
@@ -165,8 +167,8 @@ mod World {
     /// 体を置き直す（始まり・描き出しの場面）。足元は、高さ y の近く（段の高さより上から下へ）の床に合わせる。
     pub def placeWalker(res: Res.Res, at: { x = Float64, y = Float64, z = Float64 }, yawDeg: Float64, pitchDeg: Float64, w: World): World =
         let walk = WalkDoc.rec(res#walk);
-        let placed = Walker.settle(res#stage#boxes, walk, Walker.standing(at#x, at#y, at#z, yawDeg));
-        mapSession(s -> { walker = { pitch = pitchDeg * Walker.pi() / 180.0 | placed } | s }, w)
+        let placed = Walker.settle(res#collision, walk, Walker.standing(at#x, at#y, at#z, yawDeg));
+        mapSession(s -> { walker = { pitch = pitchDeg * Num.pi() / 180.0 | placed } | s }, w)
 
     /// 縦の画角を替える（静止画の構図。None で WalkDoc の fovY に戻す）。
     pub def withFov(fov: Option[Float64], w: World): World = mapSession(s -> { fov = fov | s }, w)
@@ -203,6 +205,10 @@ mod World {
     /// 自動の操縦が道筋を歩き終えたか（付いていなければ false）。
     pub def isTourDone(res: Res.Res, w: World): Bool =
         sessionOf(w)#pilot |> Option.exists(Pilot.isDone(TourDoc.rec(res#tour)))
+
+    /// 今出しておく、E で調べた物の文言と、出してからの秒（出しておく秒を過ぎたら None）。
+    pub def captionOf(res: Res.Res, w: World): Option[(String, Float64)] =
+        Inspect.showing(InspectDoc.rec(res#inspect), Clock.nowOf(w#play), sessionOf(w)#seen)
 
     /// 手の灯りが点いているか。
     pub def isLightOn(w: World): Bool = PlayStep.isOn(sessionOf(w)#light)
@@ -320,11 +326,11 @@ mod World {
             case Some(p) =>
                 let (a, next) = Pilot.drive(TourDoc.rec(res#tour), s#walker, clock, p);
                 (a, Some(next))
-            case None => ({ drive = input#drive, press = isPressed(Action.UseDoor, input), light = toggleCue(isPressed(Action.ToggleLight, input), s#light) }, None)
+            case None => ({ drive = input#drive, press = isPressed(Action.Interact, input), light = toggleCue(isPressed(Action.ToggleLight, input), s#light) }, None)
         };
         let now = Clock.secondsOf(Clock.nowOf(clock));
-        let body = PlayStep.stepWith(Res.playEnv(res), moversOf(res, now, s#stairs), act, clock, { walker = s#walker, doors = s#doors, light = s#light });
-        { walker = body#walker, doors = body#doors, light = body#light, pilot = pilot,
+        let body = PlayStep.stepWith(Res.playEnv(res), moversOf(res, now, s#stairs), act, clock, { walker = s#walker, doors = s#doors, light = s#light, seen = s#seen });
+        { walker = body#walker, doors = body#doors, light = body#light, seen = body#seen, pilot = pilot,
           stairs = nextStairs(res, now, body#walker, s#stairs),
           colliders = if (isPressed(Action.ToggleColliders, input)) toggledColliders(s#colliders) else s#colliders | s }
 
@@ -344,11 +350,11 @@ mod World {
         res#residents |> List.map(p -> p#entry) |> List.find(e -> not People.isResident(e))
 
     /// 歩いている階段の人のカプセルの箱（歩いていなければ None。当たり判定の表示とテストが読む）。
-    pub def stairwalkerBox(res: Res.Res, w: World): Option[Collider.Box] =
+    pub def stairwalkerBox(res: Res.Res, w: World): Option[CollisionShape3d.Box3d] =
         moversOf(res, seconds(w), sessionOf(w)#stairs) |> List.head
 
     /// 動いている物のカプセルの箱（歩いている階段の人）。
-    def moversOf(res: Res.Res, now: Float64, stairs: Stairs): List[Collider.Box] = match stairs {
+    def moversOf(res: Res.Res, now: Float64, stairs: Stairs): List[CollisionShape3d.Box3d] = match stairs {
         case Stairs.Walking(origin) => stairwalkerOf(res) |> Option.map(e -> People.capsuleBox(e, People.pathAt(e, now - origin))) |> Option.toList
         case _                      => Nil
     }

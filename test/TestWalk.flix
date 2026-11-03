@@ -2,7 +2,9 @@
 // 箱は書き出しの collision.glb。床の高さの期待値は Blender の寸法（1 階の床 0.3 m・階高 2.8 m・踊り場は半分の 1.4 m 上）。
 mod TestWalk {
 
-    def b(): List[Collider.Box] \ Fs.FileRead = TestKit.boxes()
+    use fge::CollisionWorld3d
+
+    def b(): CollisionWorld3d.CollisionWorld3d \ Fs.FileRead = TestKit.world()
 
     def last(ws: List[Walker.Walker], fallback: Walker.Walker): Walker.Walker = List.last(ws) |> Option.getWithDefault(fallback)
 
@@ -59,8 +61,8 @@ mod TestWalk {
     @Test
     def testFootingOnFlightIsSlope(): Unit \ {Assert, Fs.FileRead} =
         let bx = b();
-        Assert.assertEq(expected = Walker.Footing.Standing(Walker.Surface.Slope),
-            Walker.settle(bx, TestKit.walk(), Walker.standing(-17.68, 1.2, -0.75, 180.0))#footing)
+        Assert.assertEq(expected = Some(Walker.Surface.Slope),
+            Walker.surfaceOf(Walker.settle(bx, TestKit.walk(), Walker.standing(-17.68, 1.2, -0.75, 180.0))))
 
     // ── 区切って進む ──
 

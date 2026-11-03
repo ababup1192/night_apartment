@@ -65,6 +65,7 @@
       "hooks.json",
       "jargon.json",
       "makefile-dup.json",
+      "max-lines.json",
       "notes-rotate.json",
       "precommit.json",
       "px.json",

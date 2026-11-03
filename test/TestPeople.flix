@@ -2,7 +2,7 @@
 // 置き場所・出来事の秒・カプセルは書き出しの manifest.json の people（headbanger の hit は 0.9333 秒ほか 5 回・7.4 秒のループ、
 // stomper の stomp_l は 0.3 と 0.9333 秒ほか、stairwalker は 26.433 秒 1 回きり）。
 mod TestPeople {
-    use fge::{AnimationClip3d, Skin3d, Vec3}
+    use fge::{AnimationClip3d, CollisionWorld3d, Skin3d, Vec3}
 
     def entries(): List[People.Entry] \ Fs.FileRead = People.entriesOf(TestKit.manifest())
 
@@ -40,7 +40,7 @@ mod TestPeople {
     @Test
     def testResidentsDoNotOverlapBoxes(): Unit \ {Assert, Fs.FileRead} =
         Assert.assertEq(expected = ("headbanger", 0.0) :: ("stomper", 0.0) :: ("swayer", 0.0) :: Nil,
-            People.placementOverlaps(snd(TestKit.layout()), TestKit.walk()#stepHeight, entries()))
+            People.placementOverlaps(Collider.worldOf(TestKit.statics(), TestKit.walk()), TestKit.walk()#stepHeight, entries()))
 
     // ── 出来事の秒 ──
 
@@ -94,10 +94,10 @@ mod TestPeople {
         let placed = World.placeWalker(res, { x = -17.915, y = 1.1, z = -1.0 }, 180.0, 0.0, World.initial(res)) |> World.withStairsAt(19.0);
         let after = World.stepTimes(res, TestKit.noInput(), dt(), 120, placed);
         let b = World.walkerOf(after);
-        let body = Walker.bodyOf(TestKit.walk());
+        let walk = TestKit.walk();
         Assert.assertEq(expected = (Some(true), true),
-            (World.stairwalkerBox(res, after) |> Option.map(bx -> Collider.deepestOverlap(bx :: Nil, body, b#x, b#feet, b#z) < 0.01),
-             Collider.deepestOverlap(snd(TestKit.layout()), body, b#x, b#feet, b#z) < 0.02))
+            (World.stairwalkerBox(res, after) |> Option.map(bx -> Walker.overlapDepth(CollisionWorld3d.empty(), bx :: Nil, walk, b) < 0.01),
+             Walker.overlapDepth(Collider.worldOf(TestKit.statics(), walk), Nil, walk, b) < 0.02))
 
     // ── カプセル ──
 
@@ -106,7 +106,7 @@ mod TestPeople {
     def testBodyStopsAtResidentCapsule(): Unit \ {Assert, Fs.FileRead, IO} =
         let res = TestKit.peopleRes();
         let env = Res.playEnv(res);
-        let start = { walker = TestKit.standAt(env#boxes, -11.4, 3.25, -2.6, 270.0), doors = Map.empty(), light = PlayStep.Flashlight.Off };
+        let start = { walker = TestKit.standAt(env#world, -11.4, 3.25, -2.6, 270.0), doors = Map.empty(), light = PlayStep.Flashlight.Off, seen = None };
         let moved = PlayStep.simulate(env, { drive = TestKit.forward(false) | PlayStep.idle() }, TestKit.frame(), 180, start);
         Assert.assertTrue(moved#walker#x > -12.25 + 0.22 + 0.22 - 0.01)
 

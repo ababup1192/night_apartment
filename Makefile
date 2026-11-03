@@ -20,7 +20,7 @@ PALETTE_DEPS := assets/night_apartment.theme.json assets/night_apartment.sprite.
                 src/Palette.flix src/ThemeDoc.flix
 # 描き出せる場面の名前（source of truth は SceneRender.shotNames。ここは使い方に出す写し）。
 # 場面を足したら SceneRender.shotNames と一緒にここも足す。
-SHOTS := wide vending corridor stairs loading quit volume
+SHOTS := wide vending corridor stairs inspect loading quit volume
 
 # ENGINE の場所が違うと include ごと落ち、make は「そんなファイルは無い」としか言わない。
 # 先に自前で見て、直し方の 1 行を出してから止める（この検査が無いと make status も塞がる）。

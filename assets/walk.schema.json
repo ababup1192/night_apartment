@@ -110,6 +110,16 @@
       "min": 0.8,
       "max": 2.5
     },
+    "floorMaxAngleDeg": {
+      "kind": "field",
+      "type": "float",
+      "label": "床として乗れる傾きの上限（度。外階段の段板は約 43 度）",
+      "order": 12,
+      "default": 60.0,
+      "group": "体",
+      "min": 30.0,
+      "max": 89.0
+    },
     "stepHeight": {
       "kind": "field",
       "type": "float",
@@ -124,7 +134,7 @@
       "kind": "field",
       "type": "float",
       "label": "落ちる速さの増え方（m/秒²）",
-      "order": 12,
+      "order": 13,
       "default": 9.8,
       "group": "体",
       "min": 1,
@@ -134,7 +144,7 @@
       "kind": "field",
       "type": "float",
       "label": "箱の無い所の地面の高さ（m）",
-      "order": 13,
+      "order": 14,
       "default": -0.02,
       "group": "体",
       "min": -1,
@@ -144,7 +154,7 @@
       "kind": "field",
       "type": "float",
       "label": "歩く時の頭の上下（m）",
-      "order": 14,
+      "order": 15,
       "default": 0.025,
       "group": "見え方",
       "min": 0,
@@ -154,7 +164,7 @@
       "kind": "field",
       "type": "float",
       "label": "縦の画角（度）",
-      "order": 15,
+      "order": 16,
       "default": 58.0,
       "group": "見え方",
       "min": 20,
@@ -163,7 +173,7 @@
     "start": {
       "kind": "record",
       "label": "歩き始める所",
-      "order": 16,
+      "order": 17,
       "fields": {
         "x": {
           "type": "float",
@@ -185,7 +195,7 @@
     "bounds": {
       "kind": "record",
       "label": "歩ける範囲",
-      "order": 17,
+      "order": 18,
       "fields": {
         "minX": {
           "type": "float",

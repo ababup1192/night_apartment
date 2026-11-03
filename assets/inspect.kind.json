@@ -1,0 +1,28 @@
+{
+  "version": 1,
+  "title": "E で調べた物の文言",
+  "note": "目の向きのレイが最初に当たった当たり判定のノード（collision.glb の COL_…）の名前に一番長く合う prefix（名前そのものか「prefix_」で始まる）の text を画面の下に出す（行の並びは問わない）（字は英数字）。reach=調べられる距離（m）・showSeconds=出しておく秒・charsPerSecond=1 秒に出す字の数。扉の板を見て E を押すと扉を開け閉めする。",
+  "reach": 2.2,
+  "showSeconds": 4.0,
+  "charsPerSecond": 40.0,
+  "things": [
+    { "prefix": "COL_PRP_vending_red", "text": "A red vending machine. Every button says SOLD OUT." },
+    { "prefix": "COL_PRP_vending_white", "text": "The white machine hums. One can sits in the tray, still cold." },
+    { "prefix": "COL_PRP_mailbox", "text": "Mailboxes. The one for 204 is stuffed with unopened letters." },
+    { "prefix": "COL_ENV_mailbox_wall", "text": "Mailboxes. The one for 204 is stuffed with unopened letters." },
+    { "prefix": "COL_PRP_bike_abandoned", "text": "A bicycle with flat tires. The lock has rusted shut." },
+    { "prefix": "COL_PRP_bike", "text": "Someone's bicycle. The seat is still wet." },
+    { "prefix": "COL_PRP_ac", "text": "An air conditioner. It drips, though nobody runs it." },
+    { "prefix": "COL_PRP_heater", "text": "A water heater. The pilot light flickers blue." },
+    { "prefix": "COL_PRP_recycle", "text": "Recycling bins. Collection day was last week." },
+    { "prefix": "COL_PRP_bag", "text": "Garbage bags. Something inside shifts." },
+    { "prefix": "COL_PRP_doorbag", "text": "A bag hung on the doorknob. Nobody took it in." },
+    { "prefix": "COL_PRP_papers", "text": "Newspapers piled by the door. The dates stop in March." },
+    { "prefix": "COL_PRP_pot", "text": "A potted plant, long dead." },
+    { "prefix": "COL_PRP_pole", "text": "A utility pole. Flyers for the same missing cat, layer on layer." },
+    { "prefix": "COL_room_203_butsudan", "text": "A family altar. The incense is still warm." },
+    { "prefix": "COL_room_203_kotatsu", "text": "A kotatsu. It is switched on." },
+    { "prefix": "COL_room_204_futon", "text": "A futon, still pressed into the shape of someone." },
+    { "prefix": "COL_room_204_chair_fallen", "text": "A chair on its side. Nobody set it back up." }
+  ]
+}

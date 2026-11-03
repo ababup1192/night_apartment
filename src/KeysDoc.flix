@@ -20,7 +20,7 @@ mod KeysDoc {
         lookDown = List[Key],     // 見下ろす
         sprint = List[Key],       // 押している間は走る
         light = List[Key],        // 手の灯りを点け消し
-        door = List[Key],         // 向いている玄関の扉を開け閉め
+        door = List[Key],         // 見ている玄関の扉を開け閉め・見ている物を調べる
         colliders = List[Key],    // 当たり判定の箱を重ねて描く（調べる時）
         volume = List[Key]        // 音量の窓を開け閉め（マウスを放している時だけ）
     }

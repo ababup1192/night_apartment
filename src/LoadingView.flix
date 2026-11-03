@@ -44,7 +44,7 @@ mod LoadingView {
     /// 点 q の明るさの段（0 = 暗がり・1 = 管のすぐ下）。管が消えている間は 0.15 倍。段は 6 つに丸める。
     def litAt(w: In, q: Vec2.Vec2): Float64 =
         let d = Vec2.sub(q, lamp());
-        let e = Vec2.sqrt(d#x * d#x / 4.0 + d#y * d#y);
+        let e = Num.sqrt(d#x * d#x / 4.0 + d#y * d#y);
         let raw = Num.clamp(0.0, 1.0, 1.0 - e / 150.0);
         let k = if (lit(w)) 1.0 else 0.15;
         Float64.floor(raw * raw * k * 5.0 + 0.5) / 5.0

@@ -3,7 +3,7 @@
 // 画風は AGENTS.local.md の夜のアパート: 夜の藍の板に、蛍光灯の緑がかった白で印とバーを灯す。字は出さず、行の頭の小さな絵
 // （スピーカー・風・足跡）で何のバーかを見せる。0 にした行は差し色（自販機の赤）の点で、鳴らないことを示す。
 mod VolumeView {
-    use fge::{Color, RawDraw, Rect2, Render, Vec2, ZStack}
+    use fge::{Color, Num, RawDraw, Rect2, Render, Vec2, ZStack}
     use ZOrder.Layer
 
     /// 描くのに要る値: 音量・窓の状態・色・遊びの時計の秒（印の灯りがゆっくり息をする）。
@@ -81,7 +81,7 @@ mod VolumeView {
         let arc = (r: Float64) -> List.range(0, 3) |> List.map(k -> {
             let a0 = -0.9 + 0.6 * Int32.toFloat64(k);
             let a1 = a0 + 0.6;
-            RawDraw.lineSeg(p(2.0 + r * Vec2.cos(a0), r * Vec2.sin(a0)), p(2.0 + r * Vec2.cos(a1), r * Vec2.sin(a1)), 1.1 * s, color, z)
+            RawDraw.lineSeg(p(2.0 + r * Num.cos(a0), r * Num.sin(a0)), p(2.0 + r * Num.cos(a1), r * Num.sin(a1)), 1.1 * s, color, z)
         });
         let waves =
             if (level <= 0.0) RawDraw.lineSeg(p(3.0, -4.5), p(8.0, 4.5), 1.3 * s, mute, z + 1) :: Nil
@@ -106,7 +106,7 @@ mod VolumeView {
     def iconItems(w: In): List[Render.PlacedItem] =
         let c = iconCenter();
         let r = iconRect();
-        let breath = 0.85 + 0.15 * Vec2.sin(w#t * 1.4);
+        let breath = 0.85 + 0.15 * Num.sin(w#t * 1.4);
         let glow = Render.lightAt({ at = c, radius = 18.0, color = lit(w), strength = (if (w#menu#open) 0.28 else 0.12) * breath, z = 0 });
         let board = plate(r#position, r#size, Color.mix(night(w), lit(w), 0.10), { color = lit(w), alpha = if (w#menu#open) 0.45 else 0.22 }, 1);
         let glyph = speaker({ x = c#x - 1.0, y = c#y }, 1.0, w#prefs#master, Color.mix(night(w), lit(w), if (w#menu#open) 0.95 else 0.7), warning(w), 2);

@@ -53,9 +53,9 @@ mod LightsDoc {
     /// コード側の既定値（assets/night.lights.json と同じ手触りから出発する。蛍光灯の並びは JSON が正なので、ここは 1 本だけ）。
     pub def defaults(): Doc =
         Doc.Doc({ version = 1,
-                  flashlight = { color = hx("#ffe9c8"), intensity = 0.8, range = 14.0, coneDeg = 55.0, innerConeDeg = 18.0,
+                  flashlight = { color = hx("#fff3e2"), intensity = 1.1, range = 11.0, coneDeg = 55.0, innerConeDeg = 18.0,
                                  forward = 0.25, down = 0.3, right = 0.18, shadow = false, startOn = true },
-                  flash = { color = hx("#d8f0e0"), intensity = 1.6, range = 5.0, tubeGlow = 2.4, screenDip = 0.25, dipRange = 6.0 },
+                  flash = { color = hx("#d8f0e0"), intensity = 1.6, range = 5.0, tubeGlow = 0.5, screenDip = 0.25, dipRange = 6.0 },
                   flies = { perLamp = 14, spread = 0.7, size = 0.012, speed = 1.0, color = hx("#e8f0d8"), drawRange = 14.0 },
                   lamps = { name = "2-3", x = -11.75, y = 5.636, z = 0.55, state = LampState.Dying,
                             flicker = FlickerKind.Sputter, rate = 0.6, seed = 23 } :: Nil })

@@ -6,10 +6,10 @@ mod TestRules {
 
     /// 舞台の無い Doc の束（規則だけを見る）。
     pub def docs(): Res.Docs =
-        { sample = SampleDoc.defaults(), keys = KeysDoc.defaults(), theme = ThemeDoc.defaults(), sprites = PxSpriteDoc.empty(),
+        { sample = SampleDoc.defaults(), inspect = InspectDoc.defaults(), keys = KeysDoc.defaults(), theme = ThemeDoc.defaults(), sprites = PxSpriteDoc.empty(),
           walk = WalkDoc.defaults(), look = LookDoc.defaults(), lights = LightsDoc.defaults(), sound = SoundDoc.defaults(),
           tour = TourDoc.defaults(), rooms = RoomsDoc.defaults(), people = PeopleDoc.defaults(), prefs = AudioPrefs.defaults(),
-          stage = { parts = Nil, boxes = Nil, rooms = Nil }, residents = Nil }
+          stage = { parts = Nil, boxes = Nil, rooms = Nil, things = Nil }, residents = Nil }
 
     def w0(): World.World = World.initial(res())
 

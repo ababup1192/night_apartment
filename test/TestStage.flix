@@ -1,7 +1,7 @@
 // 舞台の読み込みのテスト: manifest.json の部品の一覧・lightmap の島の間・当たり判定の箱・lightmap つきで置けるか。
 // 期待値は書き出しの manifest.json の値（部品の数・小物の部品の島の間）と Blender の寸法から。
 mod TestStage {
-    use fge::{LoadProgress, Mesh3d, Scene3d}
+    use fge::{HeadlessLoad, Mesh3d, Scene3d}
 
     def manifest(): String \ Fs.FileRead = Fs.FileRead.read("assets/apartment/manifest.json") |> Result.getWithDefault("")
 
@@ -36,8 +36,8 @@ mod TestStage {
     def testPartLoadsWithLightmap(): Unit \ {Assert, Fs.FileRead, IO} =
         let others = Stage.entriesOf(manifest()) |> Result.getWithDefault(Nil) |> List.map(e -> e#name) |> List.filter(n -> n != "far_ground");
         let doc = StageDoc.Doc.Doc({ skip = others | StageDoc.rec(StageDoc.defaults()) });
-        let loaded = LoadProgress.runNoop(() -> Stage.load(doc));
-        let placed = loaded#parts |> List.flatMap(Stage.placedOf(3.0, (1.0, 1.0, 1.0), Nil));
+        let loaded = HeadlessLoad.handle(() -> Stage.load(doc));
+        let placed = loaded#parts |> List.flatMap(Stage.placedOf(3.0, 1.0, (1.0, 1.0, 1.0), Nil));
         let inst = placed |> List.map(Stage.instanceOf(Map.empty()));
         Assert.assertEq(expected = (1, true, true, Nil),
             (List.length(loaded#parts), List.forAll(p -> Option.nonEmpty(Mesh3d.uvs2(p#mesh)), placed),

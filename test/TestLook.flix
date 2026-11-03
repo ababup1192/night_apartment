@@ -2,7 +2,7 @@
 // 窓を押すとキャプチャし Esc で放し、放している時の Esc で終了の確認・画面の真ん中の点はキャプチャしている間だけ。
 // 感度と見上げの上限は walk.kind.json の既定（WalkDoc.defaults）から。
 mod TestLook {
-    use fge::{App, GameEngine, Vec2}
+    use fge::{App, CollisionWorld3d, GameEngine, Num, Vec2}
 
     def walk(): WalkDoc.Rec = TestKit.walk()
 
@@ -33,8 +33,8 @@ mod TestLook {
     /// どれだけ大きく見下ろしても、見上げ見下ろしの角は pitchLimit で止まる。
     @Test
     def testPitchStopsAtLimit(): Unit \ Assert =
-        let w = Walker.simulate(Nil, walk(), { lookDeg = 1000.0 | Walker.idle() }, TestKit.frame(), 1, Walker.standing(0.0, 0.0, 0.0, 0.0));
-        Assert.assertEq(expected = Some(true), List.head(w) |> Option.map(b -> Float64.abs(b#pitch - walk()#pitchLimit * Walker.pi() / 180.0) < 0.0001))
+        let w = Walker.simulate(CollisionWorld3d.empty(), walk(), { lookDeg = 1000.0 | Walker.idle() }, TestKit.frame(), 1, Walker.standing(0.0, 0.0, 0.0, 0.0));
+        Assert.assertEq(expected = Some(true), List.head(w) |> Option.map(b -> Float64.abs(b#pitch - walk()#pitchLimit * Num.pi() / 180.0) < 0.0001))
 
     // ── キャプチャの切り替え ──
 
