@@ -8,7 +8,7 @@
 // 歩く中身（Session）は両方の場面が持つ（幕の裏で描く場面も、歩き始める所から見る）。
 mod World {
 
-    use fge::{Clock, CollisionShape3d, FrameDiagnostics, Num}
+    use fge::{Clock, CollisionShape3d, Num}
 
     /// 押した瞬間に効く操作（同じコマに幾つでも重なる）。
     pub enum Action with Eq, Order, ToString {
@@ -81,7 +81,6 @@ mod World {
         stairs = Stairs,
         look = Look,
         diagnosticsView = DiagnosticsView,
-        diagnostics = Option[FrameDiagnostics.Diagnostics],
         // 遊ぶ人が決めた音量と、それを変える窓。
         audio = AudioPrefs.Prefs,
         volume = AudioPrefs.Menu,
@@ -128,7 +127,7 @@ mod World {
     def freshSession(res: Res.Res): Session =
         SessionOf.SessionOf({ walker = startWalker(res), doors = Doors.initialAll(res#stage#rooms), light = PlayStep.flashlightOf(LightsDoc.rec(res#lights)#flashlight#startOn),
                               colliders = ColliderView.Hidden, fov = None, pilot = None,
-                              stairs = Stairs.Waiting, look = Look.Released, diagnosticsView = DiagnosticsView.Hidden, diagnostics = None,
+                              stairs = Stairs.Waiting, look = Look.Released, diagnosticsView = DiagnosticsView.Hidden,
                               audio = res#prefs, volume = AudioPrefs.closedMenu(), seen = None })
 
     /// 遊びから始める状態（描き出し・テスト・flow）。
@@ -261,17 +260,8 @@ mod World {
         case DiagnosticsView.Hidden => DiagnosticsView.Shown
     }
 
-    /// 前のコマの診断を写す（App.withDiagnostics が配る frame#diagnostics）。
-    pub def withDiagnostics(d: Option[FrameDiagnostics.Diagnostics], w: World): World = mapSession(s -> { diagnostics = d | s }, w)
-
-    /// 出す診断（F3 を切っている・まだ測れていなければ None）。
-    pub def diagnosticsOf(w: World): Option[FrameDiagnostics.Diagnostics] =
-        let s = sessionOf(w);
-        if (s#diagnosticsView == DiagnosticsView.Shown) s#diagnostics else None
-
-    /// 出す診断の行を 1 つの字に（出さない時は空）。
-    pub def diagnosticsText(w: World): String =
-        diagnosticsOf(w) |> Option.map(d -> String.intercalate("\n", FrameDiagnostics.summaryLines(d))) |> Option.getWithDefault("")
+    /// F3 の診断を出しているか。
+    pub def showsDiagnostics(w: World): Bool = sessionOf(w)#diagnosticsView == DiagnosticsView.Shown
 
     /// 階段の人。
     pub def stairsOf(w: World): Stairs = sessionOf(w)#stairs

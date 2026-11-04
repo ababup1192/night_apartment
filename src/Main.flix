@@ -19,8 +19,6 @@ def main(): Unit \ IO =
                 |> App.withAnnotationContext(Resources.read((res, w) ->
                     { facts = ("状態", E2e.fingerprint(res, w)) :: Nil,
                       layers = ZOrder.layers(), hudLayers = (Nil: List[ZOrder.Layer]) }))
-                // F3 の診断を出している間は、同じ行を debug/diagnostics.txt にも書く（隠した窓で測る時に数を拾う）。
-                |> App.addOutput(Resources.liftOutput({ keyOf = World.diagnosticsText, write = writeDiagnostics, onJump = App.OnJump.Write }))
                 // 遊ぶ人が変えた音量を saves/audio.json に残す（次の起動で Controls.loadDocs が読み戻す）。
                 |> App.addOutput(Resources.liftOutput({ keyOf = w -> AudioPrefs.toText(World.prefsOf(w)), write = w -> AudioPrefs.save(World.prefsOf(w)), onJump = App.OnJump.Skip }))
                 |> App.onRenderRequest(SceneRender.allShots)
@@ -30,5 +28,4 @@ def main(): Unit \ IO =
           with Fs.FileWrite.runWithIO
     }
 
-def writeDiagnostics(w: World.World): Unit \ Fs.FileWrite =
-    discard Fs.FileWrite.write({ str = World.diagnosticsText(w) }, "debug/diagnostics.txt")
+

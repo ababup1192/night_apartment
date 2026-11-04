@@ -23,7 +23,7 @@ mod View {
         quitPrompt = String,
         // マウスをキャプチャしているか（画面の真ん中に小さな点を出す）・F3 の診断の行（出さない時は空）。
         looking = Bool,
-        diagnostics = List[String],
+        showsDiagnostics = Bool,
         // 隅の音量の印と窓（マウスを放している時だけ。動画と静止画では None）。
         volume = Option[VolumeView.In],
         // E で調べた物の文言（出しておく秒の間だけ）。
@@ -43,7 +43,7 @@ mod View {
         { stage = stage, loading = loading,
           warm = World.loadingOf(w) |> Option.map(l -> warmPlan(res, stage, l#step - 1)) |> Option.getWithDefault(Render.passPlan(Nil)),
           theme = res#theme, askingQuit = World.isAskingQuit(w), quitPrompt = SampleDoc.rec(res#sample)#quitPrompt,
-          looking = World.isLooking(w), diagnostics = World.diagnosticsOf(w) |> Option.map(FrameDiagnostics.summaryLines) |> Option.getWithDefault(Nil),
+          looking = World.isLooking(w), showsDiagnostics = World.showsDiagnostics(w),
           volume = if (World.showsVolumeIcon(w)) Some({ prefs = World.prefsOf(w), menu = World.volumeMenuOf(w), theme = res#theme, t = t }) else None,
           caption = World.captionOf(res, w) |> Option.map(e -> {
               let doc = InspectDoc.rec(res#inspect);
@@ -158,7 +158,8 @@ mod View {
         let dot = if (w#looking and not w#askingQuit)
                       RawDraw.circleAt({ x = World.width() / 2.0, y = World.height() / 2.0 }, 1.0, Color.mix(theme#bg, theme#accent, 0.45), 0) :: Nil
                   else Nil;
-        let lines = w#diagnostics |> List.zipWithIndex |> List.map(e -> {
+        let rows = if (w#showsDiagnostics) ctx#diagnostics |> Option.map(FrameDiagnostics.summaryLines) |> Option.getWithDefault(Nil) else Nil;
+        let lines = rows |> List.zipWithIndex |> List.map(e -> {
             let (i, line) = e;
             let size = 8.0;
             TextDraw.centered({ text = line, atlas = ctx#atlas, size = size, color = theme#accent, z = 1,

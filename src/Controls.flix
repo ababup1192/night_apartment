@@ -50,7 +50,7 @@ mod Controls {
             else volumeKeys(frame, res, w);
         let w2 = if (frame#mouseClicked and World.isAskingQuit(w1)) tapAt(res, frame#cursor, w1) else w1;
         let w3 = if (pressed(GameEngine.Key.F3)) World.toggleDiagnostics(w2) else w2;
-        World.step(res, inputOf(frame, res, w3) |> quietWhile(World.isVolumeOpen(w3)), w3) |> World.withDiagnostics(frame#diagnostics)
+        World.step(res, inputOf(frame, res, w3) |> quietWhile(World.isVolumeOpen(w3)), w3)
 
     /// 音量の窓が開いている間は歩かない（↑↓←→ を窓が使う）。
     def quietWhile(open: Bool, input: World.Input): World.Input =
